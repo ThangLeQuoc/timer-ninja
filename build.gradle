@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.freefair.aspectj" version '6.6.3'
 }
 
 group 'com.github.thanglequoc'
@@ -10,6 +11,15 @@ repositories {
 }
 
 dependencies {
+
+    // AspectJ dependencies
+//    runtimeOnly group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.19'
+    implementation group: 'org.aspectj', name: 'aspectjrt', version: '1.9.19'
+
+//    // https://mvnrepository.com/artifact/org.aspectj/aspectjtools
+//    implementation group: 'org.aspectj', name: 'aspectjtools', version: '1.9.19'
+
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
@@ -17,3 +27,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+sourceSets.main.aspectj.srcDir "src/main/java"
+sourceSets.main.java.srcDirs = files()
+sourceSets.test.aspectj.srcDir "src/test/java"
+sourceSets.test.java.srcDirs = files()
