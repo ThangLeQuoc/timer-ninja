@@ -24,4 +24,9 @@ public class AccountTest {
     public void given20AndMin10_whenWithdraw100_thenFail() {
         assertFalse(account.withdraw(100));
     }
+
+    @Test
+    public void given20AndMin10_whenWithdraw10_thenFail() {
+        account.withdrawA(100);
+    }
 }

@@ -1,3 +1,5 @@
+package com.github.thanglequoc.timerninja;
+
 import com.github.thanglequoc.timerninja.Account;
 
 public aspect AccountAspect {
