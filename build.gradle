@@ -1,6 +1,7 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id "io.freefair.aspectj" version '6.6.3'
+    id 'maven-publish'
 }
 
 group 'com.github.thanglequoc'
@@ -32,3 +33,14 @@ sourceSets.main.aspectj.srcDir "src/main/java"
 sourceSets.main.java.srcDirs = files()
 sourceSets.test.aspectj.srcDir "src/test/java"
 sourceSets.test.java.srcDirs = files()
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
