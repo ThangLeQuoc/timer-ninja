@@ -25,18 +25,4 @@ public aspect TimeTrackingAspect {
         }
         return object;
     }
-
-//    void around(): methodAnnotatedWithTimerNinjaTracker() {
-//        StaticPart staticPart = thisJoinPointStaticPart;
-//        Signature signature = staticPart.getSignature();
-//        MethodSignature methodSignature = (MethodSignature) signature;
-//
-//        long startTime = System.currentTimeMillis();
-//        proceed();
-//        long endTime = System.currentTimeMillis();
-//
-//        if (TimerNinjaAspectUtil.isTimeNinjaTrackerEnabled(methodSignature)) {
-//            System.out.printf("%s - %d ms%n", TimerNinjaAspectUtil.prettyGetMethodSignature(methodSignature), endTime - startTime);
-//        }
-//    }
 }
