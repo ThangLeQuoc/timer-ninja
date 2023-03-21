@@ -14,7 +14,7 @@ public class Account {
         return true;
     }
 
-    @TimerNinjaTracker(isEnabled = true, timeUnit = ChronoUnit.MILLIS)
+    @TimerNinjaTracker(enabled = true, timeUnit = ChronoUnit.MILLIS)
     public void withdrawA(int amount) {
         balance = balance - amount;
         try {

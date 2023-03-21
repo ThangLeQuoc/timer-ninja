@@ -18,6 +18,6 @@ public @interface TimerNinjaTracker {
     /**
      * Determine if this tracker should be active
      * */
-    boolean isEnabled() default true;
+    boolean enabled() default true;
 
 }

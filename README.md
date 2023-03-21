@@ -72,3 +72,9 @@ public aspect TrackedAspect {
 }
 
 ```
+
+
+LOGO
+```
+A logo for an application library called TimerNinja. There is a clock look human like (with arms, legs, eyes), his eyes are cover with Ninja cloth
+```

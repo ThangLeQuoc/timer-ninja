@@ -9,27 +9,34 @@ public aspect TimeTrackingAspect {
     /**
      * Point cut is any method annotated with @TimerNinjaTracker
      * */
-    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker * *(..));
+    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker * * (..));
 
-
-    void around(): methodAnnotatedWithTimerNinjaTracker() {
+    Object around(): methodAnnotatedWithTimerNinjaTracker() {
         StaticPart staticPart = thisJoinPointStaticPart;
         Signature signature = staticPart.getSignature();
-
         MethodSignature methodSignature = (MethodSignature) signature;
-        String methodName = signature.getName();
-        String typeName = signature.getDeclaringTypeName();
-        String returnType = methodSignature.getReturnType().getSimpleName();
 
-//        String[] parameterTypes = signature.getParameterTypes(); // from the MethodSignature
-//        System.out.println("Method Signature: " + returnType + " " + methodName + "(" + String.join(",", parameterTypes) + ")");
-
-        System.out.println("Method name: " + methodName);
-        System.out.println("Type name: " + typeName);
-        System.out.println("Return type: " + returnType);
         long startTime = System.currentTimeMillis();
-        proceed();
+        Object object = proceed();
         long endTime = System.currentTimeMillis();
-        System.out.println("Method took " + (endTime - startTime) + " ms to execute.");
+
+        if (TimerNinjaAspectUtil.isTimeNinjaTrackerEnabled(methodSignature)) {
+            System.out.printf("%s - %d ms%n", TimerNinjaAspectUtil.prettyGetMethodSignature(methodSignature), endTime - startTime);
+        }
+        return object;
     }
+
+//    void around(): methodAnnotatedWithTimerNinjaTracker() {
+//        StaticPart staticPart = thisJoinPointStaticPart;
+//        Signature signature = staticPart.getSignature();
+//        MethodSignature methodSignature = (MethodSignature) signature;
+//
+//        long startTime = System.currentTimeMillis();
+//        proceed();
+//        long endTime = System.currentTimeMillis();
+//
+//        if (TimerNinjaAspectUtil.isTimeNinjaTrackerEnabled(methodSignature)) {
+//            System.out.printf("%s - %d ms%n", TimerNinjaAspectUtil.prettyGetMethodSignature(methodSignature), endTime - startTime);
+//        }
+//    }
 }

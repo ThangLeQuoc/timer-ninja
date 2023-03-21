@@ -1,6 +1,5 @@
 package com.github.thanglequoc.timerninja;
 
-import com.github.thanglequoc.timerninja.Account;
 
 public aspect AccountAspect {
     final int MIN_BALANCE = 10;
@@ -12,8 +11,7 @@ public aspect AccountAspect {
         System.out.println("Before is called");
     }
 
-    boolean around(int amount, Account acc) :
-      callWithDraw(amount, acc) {
+    boolean around(int amount, Account acc) : callWithDraw(amount, acc) {
         System.out.println("around is called");
         if (acc.balance < amount) {
             return false;
