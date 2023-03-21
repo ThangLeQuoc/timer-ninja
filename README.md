@@ -10,6 +10,7 @@ Author: Thang Le Quoc
 Future plan look like
 ```shell
 Timer Ninja time track trace for uuid: 123-abc-def
+Trace timestamp: 2023-01-01 01:00:00:000.00Z
 -------------------------------------------------------
 Food orderFood() - 12000ms
   |-- int subExecutionTime() - 1560ms
@@ -78,3 +79,8 @@ LOGO
 ```
 A logo for an application library called TimerNinja. There is a clock look human like (with arms, legs, eyes), his eyes are cover with Ninja cloth
 ```
+
+
+Artifact Publishing
+https://www.albertgao.xyz/2018/01/18/how-to-publish-artifact-to-maven-central-via-gradle/
+

@@ -61,4 +61,40 @@ public class TimerNinjaAspectUtil {
 
         return sb.toString();
     }
+
+    /**
+     *
+     * Timer Ninja time track trace for uuid: 123-abc-def
+     * Trace timestamp: 2023-01-01 01:00:00:000.00Z
+     * -------------------------------------------------------
+     * Food orderFood() - 12000ms
+     *   |-- int subExecutionTime() - 1560ms
+     *     |-- RecordType insertRecord(int x, int y) - 1100ms
+     *     |-- Bank findBank(User u) - 500ms
+     * -------------------------------------------------------
+     *
+     * */
+    public static void prettyPrintTheTimerContextStack(TimerNinjaThreadContext timerNinjaThreadContext) {
+        System.out.println("Timer Ninja time track trace for uuid: 123-abc-def");
+        System.out.println("Trace timestamp: 2023-01-01 01:00:00:000.00Z");
+        System.out.println("--------------------");
+        while(!timerNinjaThreadContext.isItemContextEmpty()) {
+            TrackerItemContext trackerItemCtx = timerNinjaThreadContext.popItemContext();
+            System.out.println(generateIndent(trackerItemCtx.getPointerDepth()) + trackerItemCtx.getMethodExecutionResult());
+        }
+        System.out.println("--------------------");
+    }
+
+    private static String generateIndent(int pointerDepth) {
+        if (pointerDepth == 0) {
+            return "";
+        }
+        int spaceCount = pointerDepth * 2;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i<= spaceCount; i++) {
+            sb.append(" ");
+        }
+        sb.append("|-- ");
+        return sb.toString();
+    }
 }
