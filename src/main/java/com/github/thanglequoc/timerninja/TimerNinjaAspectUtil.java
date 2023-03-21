@@ -55,8 +55,10 @@ public class TimerNinjaAspectUtil {
         }
         sb.append(")");
 
+        // TODO @tle 21/3/2023: Include the method signature as well
         // String typeName = methodSignature.getDeclaringTypeName();
         // methodSignature.getModifiers(); java.lang.reflect.Modifier
+
         return sb.toString();
     }
 }
