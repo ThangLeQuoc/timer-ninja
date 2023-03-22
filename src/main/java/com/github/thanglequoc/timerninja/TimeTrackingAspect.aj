@@ -34,7 +34,7 @@ public aspect TimeTrackingAspect {
             trackingCtx.addItemContext(
                 new TrackerItemContext(
                     trackingCtx.getPointerDepth(),
-                    String.format("%s - %d ms%n", TimerNinjaAspectUtil.prettyGetMethodSignature(methodSignature), endTime - startTime))
+                    String.format("%s - %d ms", TimerNinjaAspectUtil.prettyGetMethodSignature(methodSignature), endTime - startTime))
             );
         }
 
