@@ -85,7 +85,7 @@ Artifact Publishing
 https://www.albertgao.xyz/2018/01/18/how-to-publish-artifact-to-maven-central-via-gradle/
 
 **Tasks**
-- Include the method signature in the output  
+- DONE -  Include the method signature in the output  
 - Support different timeunit (s, ms<-default, ns)  
 - Generate unique time track trace id and trace timestamp  
 - (chore) Dynamically print the ---- separator base on the length?  

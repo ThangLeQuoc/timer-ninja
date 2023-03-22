@@ -14,6 +14,21 @@ import com.github.thanglequoc.timerninja.TimerNinjaTracker;
     
         @TimerNinjaTracker
         public static final String getBankName() {
+            connectingToExternalNamingService();
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             return "tle bank";
+        }
+
+        @TimerNinjaTracker
+        private static void connectingToExternalNamingService() {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
