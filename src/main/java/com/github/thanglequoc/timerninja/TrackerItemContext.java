@@ -1,9 +1,9 @@
 package com.github.thanglequoc.timerninja;
 
-class TrackerItemContext {
+public class TrackerItemContext {
 
-    private int pointerDepth;
-    private String methodExecutionResult;
+    private final int pointerDepth;
+    private final String methodExecutionResult;
 
     TrackerItemContext(int pointerDepth, String methodExecutionResult) {
         this.pointerDepth = pointerDepth;

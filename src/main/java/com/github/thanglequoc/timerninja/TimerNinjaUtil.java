@@ -1,10 +1,11 @@
 package com.github.thanglequoc.timerninja;
 
+import java.lang.reflect.Modifier;
 import java.time.temporal.ChronoUnit;
 
 import org.aspectj.lang.reflect.MethodSignature;
 
-public class TimerNinjaAspectUtil {
+public class TimerNinjaUtil {
 
     /**
      * Determine if the TimerNinjaTracker is enabled
@@ -36,6 +37,12 @@ public class TimerNinjaAspectUtil {
     public static String prettyGetMethodSignature(MethodSignature methodSignature) {
         StringBuilder sb = new StringBuilder();
 
+        String methodModifier = Modifier.toString(methodSignature.getModifiers());
+        sb.append(methodModifier);
+        if (!methodModifier.isEmpty()) {
+            sb.append(" ");
+        }
+
         String returnType = methodSignature.getReturnType().getSimpleName();
         sb.append(returnType).append(" ");
 
@@ -45,19 +52,13 @@ public class TimerNinjaAspectUtil {
         // pretty print the parameter names
         String[] parameterNames = methodSignature.getParameterNames();
         Class[] parameterClasses = methodSignature.getParameterTypes();
-        if (parameterNames.length > 0) {
-            for (int i = 0; i < parameterNames.length; i++) {
-                sb.append(parameterClasses[i].getSimpleName()).append(" ").append(parameterNames[i]);
-                if (i != parameterNames.length - 1) {
-                    sb.append(", ");
-                };
+        for (int i = 0; i < parameterNames.length; i++) {
+            sb.append(parameterClasses[i].getSimpleName()).append(" ").append(parameterNames[i]);
+            if (i != parameterNames.length - 1) {
+                sb.append(", ");
             }
         }
         sb.append(")");
-
-        // TODO @tle 21/3/2023: Include the method signature as well
-        // String typeName = methodSignature.getDeclaringTypeName();
-        // methodSignature.getModifiers(); java.lang.reflect.Modifier
 
         return sb.toString();
     }
