@@ -19,15 +19,17 @@ public aspect TimeTrackingAspect {
         MethodSignature methodSignature = (MethodSignature) signature;
 
         TimerNinjaThreadContext trackingCtx = localTrackingCtx.get();
-        trackingCtx.increasePointerDepth(); // TODO @tle 21/3/2023: Watch out for bug, the pointer depth might increase even if the tracker is disable
+        boolean isTrackerEnabled = TimerNinjaAspectUtil.isTimeNinjaTrackerEnabled(methodSignature);
+        if (isTrackerEnabled) {
+            trackingCtx.increasePointerDepth();
+        }
 
+        // Method invocation
         long startTime = System.currentTimeMillis();
         Object object = proceed();
-
-
         long endTime = System.currentTimeMillis();
 
-        if (TimerNinjaAspectUtil.isTimeNinjaTrackerEnabled(methodSignature)) {
+        if (isTrackerEnabled) {
             trackingCtx.decreasePointerDepth();
             trackingCtx.addItemContext(
                 new TrackerItemContext(

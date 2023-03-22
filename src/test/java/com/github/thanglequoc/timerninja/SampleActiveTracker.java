@@ -32,7 +32,7 @@ public class SampleActiveTracker {
         nestedTrackerChild();
     }
 
-    @TimerNinjaTracker
+    @TimerNinjaTracker(enabled = false)
     private void nestedTrackerChild() {
         try {
             Thread.sleep(500);
