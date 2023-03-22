@@ -80,7 +80,7 @@ public class TimerNinjaAspectUtil {
         System.out.println("--------------------");
         while(!timerNinjaThreadContext.isItemContextEmpty()) {
             TrackerItemContext trackerItemCtx = timerNinjaThreadContext.popItemContext();
-            System.out.println(generateIndent(trackerItemCtx.getPointerDepth()) + trackerItemCtx.getMethodExecutionResult());
+            System.out.print(generateIndent(trackerItemCtx.getPointerDepth()) + trackerItemCtx.getMethodExecutionResult()); // TODO @tle 22/3/2023: Investigate why there's a line break here
         }
         System.out.println("--------------------");
     }

@@ -15,4 +15,10 @@ public class SampleActiveTrackerTest {
         SampleActiveTracker activeTracker = new SampleActiveTracker();
         activeTracker.doTransferAccount(12, "ABCEA1", new Bank());
     }
+
+    @Test
+    public void testNestedTracker() {
+        SampleActiveTracker activeTracker = new SampleActiveTracker();
+        activeTracker.nestedTrackerSample();
+    }
 }

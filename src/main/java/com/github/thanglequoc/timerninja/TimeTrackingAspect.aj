@@ -28,15 +28,15 @@ public aspect TimeTrackingAspect {
         long endTime = System.currentTimeMillis();
 
         if (TimerNinjaAspectUtil.isTimeNinjaTrackerEnabled(methodSignature)) {
+            trackingCtx.decreasePointerDepth();
             trackingCtx.addItemContext(
                 new TrackerItemContext(
                     trackingCtx.getPointerDepth(),
                     String.format("%s - %d ms%n", TimerNinjaAspectUtil.prettyGetMethodSignature(methodSignature), endTime - startTime))
             );
-            trackingCtx.decreasePointerDepth();
         }
 
-        if (trackingCtx.getPointerDepth() == -1) {
+        if (trackingCtx.getPointerDepth() == 0) {
             System.out.println("(Process to print the local thread context stack....)");
             TimerNinjaAspectUtil.prettyPrintTheTimerContextStack(trackingCtx);
         }
@@ -44,7 +44,7 @@ public aspect TimeTrackingAspect {
         return object;
     }
 
-    private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() {
+    private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() { // TODO @tle 22/3/2023: Ideally this initialization should only run once
         ThreadLocal<TimerNinjaThreadContext> timerNinjaLocalThreadContext = new ThreadLocal<>();
         timerNinjaLocalThreadContext.set(new TimerNinjaThreadContext());
         return timerNinjaLocalThreadContext;

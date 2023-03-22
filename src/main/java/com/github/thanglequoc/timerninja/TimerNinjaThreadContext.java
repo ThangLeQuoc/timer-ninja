@@ -7,7 +7,7 @@ import java.util.Stack;
  * */
 public class TimerNinjaThreadContext {
 
-    private int pointerDepth = -1; // TODO @tle 21/3/2023: Better move this to constructor?
+    private int pointerDepth = 0; // TODO @tle 21/3/2023: Better move this to constructor?
     private Stack<TrackerItemContext> itemContexts = new Stack<>();
 
     public int getPointerDepth() {

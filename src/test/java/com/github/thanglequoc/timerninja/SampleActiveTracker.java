@@ -22,4 +22,33 @@ public class SampleActiveTracker {
             throw new RuntimeException(e);
         }
     }
+
+    // Nested tracker test
+
+
+    @TimerNinjaTracker
+    public void nestedTrackerSample() {
+        nestedTrackerChild();
+        nestedTrackerChild();
+    }
+
+    @TimerNinjaTracker
+    private void nestedTrackerChild() {
+        try {
+            Thread.sleep(500);
+            nestedTrackerChild1();
+            nestedTrackerChild1(); // one more time
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @TimerNinjaTracker(enabled = true)
+    private void nestedTrackerChild1() {
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
