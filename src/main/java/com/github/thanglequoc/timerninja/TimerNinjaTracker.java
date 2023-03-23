@@ -7,16 +7,18 @@ import java.lang.annotation.Target;
 import java.time.temporal.ChronoUnit;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
 public @interface TimerNinjaTracker {
 
     /**
-     * The default time unit to use
+     * The time unit to use for the tracker.
+     * Supported time units: second, millisecond (default), nanosecond
      * */
     ChronoUnit timeUnit() default ChronoUnit.MILLIS;
 
     /**
      * Determine if this tracker should be active
+     * Set to false will disable this tracker statistic from the overall tracking trace result
      * */
     boolean enabled() default true;
 

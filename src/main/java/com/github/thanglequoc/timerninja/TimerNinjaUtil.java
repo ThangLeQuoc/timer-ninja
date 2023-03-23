@@ -1,8 +1,10 @@
 package com.github.thanglequoc.timerninja;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.time.temporal.ChronoUnit;
 
+import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 
 public class TimerNinjaUtil {
@@ -10,12 +12,20 @@ public class TimerNinjaUtil {
     /**
      * Determine if the TimerNinjaTracker is enabled
      * */
-    public static boolean isTimeNinjaTrackerEnabled(MethodSignature methodSignature) {
+    public static boolean isTimerNinjaTrackerEnabled(MethodSignature methodSignature) {
         if (methodSignature == null) {
             throw new IllegalArgumentException("MethodSignature must be present");
         }
 
         TimerNinjaTracker annotation = methodSignature.getMethod().getAnnotation(TimerNinjaTracker.class);
+        return annotation.enabled();
+    }
+
+    public static boolean isTimerNinjaTrackerEnabled(ConstructorSignature constructorSignature) {
+        if (constructorSignature == null) {
+            throw new IllegalArgumentException("ConstructorSignature must be present");
+        }
+        TimerNinjaTracker annotation = (TimerNinjaTracker) constructorSignature.getConstructor().getAnnotation(TimerNinjaTracker.class);
         return annotation.enabled();
     }
 
@@ -52,6 +62,33 @@ public class TimerNinjaUtil {
         // pretty print the parameter names
         String[] parameterNames = methodSignature.getParameterNames();
         Class[] parameterClasses = methodSignature.getParameterTypes();
+        for (int i = 0; i < parameterNames.length; i++) {
+            sb.append(parameterClasses[i].getSimpleName()).append(" ").append(parameterNames[i]);
+            if (i != parameterNames.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(")");
+
+        return sb.toString();
+    }
+
+    public static String prettyGetConstructorSignature(ConstructorSignature constructorSignature) {
+        StringBuilder sb = new StringBuilder();
+
+        String methodModifier = Modifier.toString(constructorSignature.getModifiers());
+        sb.append(methodModifier);
+        if (!methodModifier.isEmpty()) {
+            sb.append(" ");
+        }
+
+        Constructor constructor = constructorSignature.getConstructor();
+        String constructingClassType = constructor.getDeclaringClass().getSimpleName();
+        sb.append(constructingClassType).append("(");
+
+        // pretty print the parameter names
+        String[] parameterNames = constructorSignature.getParameterNames();
+        Class[] parameterClasses = constructorSignature.getParameterTypes();
         for (int i = 0; i < parameterNames.length; i++) {
             sb.append(parameterClasses[i].getSimpleName()).append(" ").append(parameterNames[i]);
             if (i != parameterNames.length - 1) {
