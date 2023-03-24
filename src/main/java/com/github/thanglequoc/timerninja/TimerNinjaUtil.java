@@ -3,7 +3,6 @@ package com.github.thanglequoc.timerninja;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -33,12 +32,21 @@ public class TimerNinjaUtil {
     /**
      * Get the ChronoUnit setting
      * */
-    public static ChronoUnit getChronoUnit(MethodSignature methodSignature) {
+    public static ChronoUnit getTrackingTimeUnit(MethodSignature methodSignature) {
         if (methodSignature == null) {
             throw new IllegalArgumentException("MethodSignature must be present");
         }
 
         TimerNinjaTracker annotation = methodSignature.getMethod().getAnnotation(TimerNinjaTracker.class);
+        return annotation.timeUnit();
+    }
+
+    public static ChronoUnit getTrackingTimeUnit(ConstructorSignature constructorSignature) {
+        if (constructorSignature == null) {
+            throw new IllegalArgumentException("MethodSignature must be present");
+        }
+
+        TimerNinjaTracker annotation = (TimerNinjaTracker) constructorSignature.getConstructor().getAnnotation(TimerNinjaTracker.class);
         return annotation.timeUnit();
     }
 
@@ -113,7 +121,7 @@ public class TimerNinjaUtil {
      * -------------------------------------------------------
      *
      * */
-    public static void prettyPrintTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
+    public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
         System.out.println("Timer Ninja time track trace for uuid: 123-abc-def");
         System.out.println("Trace timestamp: 2023-01-01 01:00:00:000.00Z");
         System.out.println("--------------------------------------------");
@@ -123,7 +131,7 @@ public class TimerNinjaUtil {
                 generateIndent(item.getPointerDepth()),
                 item.getMethodName(),
                 item.getExecutionTime(),
-                "ms" // default time unit atm...
+                getPresentationUnit(item.getTimeUnit())
             );
         });
         System.out.println("--------------------------------------------");
@@ -140,5 +148,28 @@ public class TimerNinjaUtil {
         }
         sb.append("|-- ");
         return sb.toString();
+    }
+
+    public static long convertFromMillis(long timeInMillis, ChronoUnit unitToConvert) {
+       if (ChronoUnit.MILLIS.equals(unitToConvert)) {
+           return timeInMillis;
+       }
+       else if (ChronoUnit.SECONDS.equals(unitToConvert)) {
+           return timeInMillis / 1000;
+       } else if (ChronoUnit.MICROS.equals(unitToConvert)) {
+           return timeInMillis * 1000;
+       }
+       throw new IllegalStateException("Time unit not supported");
+    }
+
+    private static String getPresentationUnit(ChronoUnit chronoUnit) {
+        if (ChronoUnit.MILLIS.equals(chronoUnit)) {
+            return "ms";
+        } else if (ChronoUnit.SECONDS.equals(chronoUnit)) {
+            return "s";
+        } else if (ChronoUnit.MICROS.equals(chronoUnit)) {
+            return "µs";
+        }
+        throw new IllegalStateException("Time unit not supported");
     }
 }

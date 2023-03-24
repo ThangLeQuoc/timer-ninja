@@ -1,11 +1,14 @@
 package com.github.thanglequoc.timerninja;
 
+import java.time.temporal.ChronoUnit;
+
 public class TrackerItemContext {
 
     private final int pointerDepth;
 
     private String methodName;
-    private int executionTime;
+    private long executionTime;
+    private ChronoUnit timeUnit;
 
     TrackerItemContext(int pointerDepth, String methodName) {
         this.pointerDepth = pointerDepth;
@@ -16,12 +19,20 @@ public class TrackerItemContext {
         return pointerDepth;
     }
 
-    public void setExecutionTime(int executionTime) {
+    public void setExecutionTime(long executionTime) {
         this.executionTime = executionTime;
     }
 
-    public int getExecutionTime() {
+    public long getExecutionTime() {
         return executionTime;
+    }
+
+    public void setTimeUnit(ChronoUnit timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+    public ChronoUnit getTimeUnit() {
+        return timeUnit;
     }
 
     public String getMethodName() {
