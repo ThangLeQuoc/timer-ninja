@@ -10,4 +10,15 @@ public class BankServiceTest {
         BankService.getBankName();
         bankService.getBankNumber(new User());
     }
+
+    @Test
+    public void testConstructorLog() {
+        BankService bankService = new BankService();
+    }
+
+    @Test
+    public void testOrdering() {
+        BankService bankService = new BankService();
+        bankService.testPaymentServiceConnections();
+    }
 }

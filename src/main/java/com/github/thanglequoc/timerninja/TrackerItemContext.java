@@ -3,18 +3,28 @@ package com.github.thanglequoc.timerninja;
 public class TrackerItemContext {
 
     private final int pointerDepth;
-    private final String methodExecutionResult;
 
-    TrackerItemContext(int pointerDepth, String methodExecutionResult) {
+    private String methodName;
+    private int executionTime;
+
+    TrackerItemContext(int pointerDepth, String methodName) {
         this.pointerDepth = pointerDepth;
-        this.methodExecutionResult = methodExecutionResult;
+        this.methodName = methodName;
     }
 
     public int getPointerDepth() {
         return pointerDepth;
     }
 
-    public String getMethodExecutionResult() {
-        return methodExecutionResult;
+    public void setExecutionTime(int executionTime) {
+        this.executionTime = executionTime;
+    }
+
+    public int getExecutionTime() {
+        return executionTime;
+    }
+
+    public String getMethodName() {
+        return methodName;
     }
 }

@@ -3,6 +3,7 @@ package com.github.thanglequoc.timerninja;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -112,15 +113,20 @@ public class TimerNinjaUtil {
      * -------------------------------------------------------
      *
      * */
-    public static void prettyPrintTheTimerContextStack(TimerNinjaThreadContext timerNinjaThreadContext) {
+    public static void prettyPrintTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
         System.out.println("Timer Ninja time track trace for uuid: 123-abc-def");
         System.out.println("Trace timestamp: 2023-01-01 01:00:00:000.00Z");
-        System.out.println("--------------------");
-        while(!timerNinjaThreadContext.isItemContextEmpty()) {
-            TrackerItemContext trackerItemCtx = timerNinjaThreadContext.popItemContext();
-            System.out.println(generateIndent(trackerItemCtx.getPointerDepth()) + trackerItemCtx.getMethodExecutionResult());
-        }
-        System.out.println("--------------------");
+        System.out.println("--------------------------------------------");
+
+        timerNinjaThreadContext.getItemContextMap().values().stream().forEach(item-> {
+            System.out.printf("%s%s - %d %s%n",
+                generateIndent(item.getPointerDepth()),
+                item.getMethodName(),
+                item.getExecutionTime(),
+                "ms" // default time unit atm...
+            );
+        });
+        System.out.println("--------------------------------------------");
     }
 
     private static String generateIndent(int pointerDepth) {

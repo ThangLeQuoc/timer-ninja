@@ -1,5 +1,8 @@
 package com.github.thanglequoc.timerninja;
 
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
+
 import org.aspectj.lang.JoinPoint.StaticPart;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.ConstructorSignature;
@@ -23,6 +26,12 @@ public aspect TimeTrackingAspect {
 
         TimerNinjaThreadContext trackingCtx = localTrackingCtx.get();
         boolean isTrackerEnabled = TimerNinjaUtil.isTimerNinjaTrackerEnabled(methodSignature);
+
+        String methodSignatureString = TimerNinjaUtil.prettyGetMethodSignature(methodSignature);
+        TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), methodSignatureString);
+        String uuid = UUID.randomUUID().toString();
+        trackingCtx.addItemContext(uuid, trackerItemContext);
+
         if (isTrackerEnabled) {
             trackingCtx.increasePointerDepth();
         }
@@ -32,18 +41,15 @@ public aspect TimeTrackingAspect {
         Object object = proceed();
         long endTime = System.currentTimeMillis();
 
+        trackerItemContext.setExecutionTime(Math.toIntExact(endTime - startTime));
+
         if (isTrackerEnabled) {
             trackingCtx.decreasePointerDepth();
-            trackingCtx.addItemContext(
-                new TrackerItemContext(
-                    trackingCtx.getPointerDepth(),
-                    String.format("%s - %d ms", TimerNinjaUtil.prettyGetMethodSignature(methodSignature), endTime - startTime))
-            );
         }
 
         if (trackingCtx.getPointerDepth() == 0) {
             System.out.println("(Process to print the local thread context stack....)");
-            TimerNinjaUtil.prettyPrintTheTimerContextStack(trackingCtx);
+            TimerNinjaUtil.prettyPrintTimerContextTrace(trackingCtx);
         }
 
         return object;
@@ -56,6 +62,12 @@ public aspect TimeTrackingAspect {
 
         TimerNinjaThreadContext trackingCtx = localTrackingCtx.get();
         boolean isTrackerEnabled = TimerNinjaUtil.isTimerNinjaTrackerEnabled(constructorSignature);
+
+        String constructorSignatureString = TimerNinjaUtil.prettyGetConstructorSignature(constructorSignature);
+        TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), constructorSignatureString);
+        String uuid = UUID.randomUUID().toString();
+        trackingCtx.addItemContext(uuid, trackerItemContext);
+
         if (isTrackerEnabled) {
             trackingCtx.increasePointerDepth();
         }
@@ -64,19 +76,15 @@ public aspect TimeTrackingAspect {
         long startTime = System.currentTimeMillis();
         Object object = proceed();
         long endTime = System.currentTimeMillis();
+        trackerItemContext.setExecutionTime(Math.toIntExact(endTime - startTime));
 
         if (isTrackerEnabled) {
             trackingCtx.decreasePointerDepth();
-            trackingCtx.addItemContext(
-                new TrackerItemContext(
-                    trackingCtx.getPointerDepth(),
-                    String.format("%s - %d ms", TimerNinjaUtil.prettyGetConstructorSignature(constructorSignature), endTime - startTime))
-            );
         }
 
         if (trackingCtx.getPointerDepth() == 0) {
             System.out.println("(Process to print the local thread context stack....)");
-            TimerNinjaUtil.prettyPrintTheTimerContextStack(trackingCtx);
+            TimerNinjaUtil.prettyPrintTimerContextTrace(trackingCtx);
         }
 
         return object;
