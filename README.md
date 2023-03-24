@@ -94,6 +94,7 @@ https://www.albertgao.xyz/2018/01/18/how-to-publish-artifact-to-maven-central-vi
 - Plan to migrate the code to `aspectj` folder to follow the convention?  
 - Performance tuning to it max?  
 - Benchmark testing plan?  
+- Code refactoring  
 **Test plan**
 - Add test on single tracker  
 - Nested tracker
