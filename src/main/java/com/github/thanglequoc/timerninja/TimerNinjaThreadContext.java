@@ -1,14 +1,20 @@
 package com.github.thanglequoc.timerninja;
 
-import java.util.Stack;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Timer Ninja Thread context
  * */
 public class TimerNinjaThreadContext {
 
-    private int pointerDepth = 0; // TODO @tle 21/3/2023: Better move this to constructor?
-    private Stack<TrackerItemContext> itemContexts = new Stack<>();
+    private int pointerDepth;
+    private Map<String, TrackerItemContext> itemContextMap;
+
+    public TimerNinjaThreadContext() {
+        pointerDepth = 0;
+        itemContextMap = new LinkedHashMap<>();
+    }
 
     public int getPointerDepth() {
         return pointerDepth;
@@ -22,15 +28,11 @@ public class TimerNinjaThreadContext {
         return --pointerDepth;
     }
 
-    public void addItemContext(TrackerItemContext trackerItemContext) {
-        itemContexts.add(trackerItemContext);
+    public Map<String, TrackerItemContext> getItemContextMap() {
+        return itemContextMap;
     }
 
-    public TrackerItemContext popItemContext() {
-        return itemContexts.pop();
-    }
-
-    public boolean isItemContextEmpty() {
-        return itemContexts.isEmpty();
+    public void addItemContext(String uuid, TrackerItemContext trackerItemContext) {
+        this.itemContextMap.put(uuid, trackerItemContext);
     }
 }
