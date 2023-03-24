@@ -2,6 +2,9 @@ package com.github.thanglequoc.timerninja;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import org.aspectj.lang.reflect.ConstructorSignature;
@@ -122,8 +125,8 @@ public class TimerNinjaUtil {
      *
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
-        System.out.println("Timer Ninja time track trace for uuid: 123-abc-def");
-        System.out.println("Trace timestamp: 2023-01-01 01:00:00:000.00Z");
+        System.out.printf("Timer Ninja time track trace context id: %s%n", timerNinjaThreadContext.getTraceContextId());
+        System.out.printf("Trace timestamp: %s%n", toUTCTimestampString(timerNinjaThreadContext.getCreationTime()));
         System.out.println("--------------------------------------------");
 
         timerNinjaThreadContext.getItemContextMap().values().stream().forEach(item-> {
@@ -171,5 +174,11 @@ public class TimerNinjaUtil {
             return "µs";
         }
         throw new IllegalStateException("Time unit not supported");
+    }
+
+    private static String toUTCTimestampString(Instant instant) {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                                .withZone(ZoneOffset.UTC)
+                                .format(instant);
     }
 }

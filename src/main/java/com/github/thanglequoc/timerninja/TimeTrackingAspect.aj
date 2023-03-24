@@ -30,9 +30,9 @@ public aspect TimeTrackingAspect {
         String methodSignatureString = TimerNinjaUtil.prettyGetMethodSignature(methodSignature);
         TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), methodSignatureString);
         String uuid = UUID.randomUUID().toString();
-        trackingCtx.addItemContext(uuid, trackerItemContext);
 
         if (isTrackerEnabled) {
+            trackingCtx.addItemContext(uuid, trackerItemContext);
             trackingCtx.increasePointerDepth();
         }
 
@@ -41,11 +41,10 @@ public aspect TimeTrackingAspect {
         Object object = proceed();
         long endTime = System.currentTimeMillis();
 
-        ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(methodSignature);
-        trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
-        trackerItemContext.setTimeUnit(trackingTimeUnit);
-
         if (isTrackerEnabled) {
+            ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(methodSignature);
+            trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
+            trackerItemContext.setTimeUnit(trackingTimeUnit);
             trackingCtx.decreasePointerDepth();
         }
 
@@ -67,9 +66,9 @@ public aspect TimeTrackingAspect {
         String constructorSignatureString = TimerNinjaUtil.prettyGetConstructorSignature(constructorSignature);
         TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), constructorSignatureString);
         String uuid = UUID.randomUUID().toString();
-        trackingCtx.addItemContext(uuid, trackerItemContext);
 
         if (isTrackerEnabled) {
+            trackingCtx.addItemContext(uuid, trackerItemContext);
             trackingCtx.increasePointerDepth();
         }
 
@@ -78,11 +77,10 @@ public aspect TimeTrackingAspect {
         Object object = proceed();
         long endTime = System.currentTimeMillis();
 
-        ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(constructorSignature);
-        trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
-        trackerItemContext.setTimeUnit(trackingTimeUnit);
-
         if (isTrackerEnabled) {
+            ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(constructorSignature);
+            trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
+            trackerItemContext.setTimeUnit(trackingTimeUnit);
             trackingCtx.decreasePointerDepth();
         }
 
@@ -95,7 +93,9 @@ public aspect TimeTrackingAspect {
 
     private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() { // TODO @tle 22/3/2023: Ideally this initialization should only run once
         ThreadLocal<TimerNinjaThreadContext> timerNinjaLocalThreadContext = new ThreadLocal<>();
-        timerNinjaLocalThreadContext.set(new TimerNinjaThreadContext());
+        TimerNinjaThreadContext timerNinjaThreadContext = new TimerNinjaThreadContext();
+
+        timerNinjaLocalThreadContext.set(timerNinjaThreadContext);
         return timerNinjaLocalThreadContext;
     }
 }
