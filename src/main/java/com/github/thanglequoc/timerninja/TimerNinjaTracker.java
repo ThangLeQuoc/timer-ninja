@@ -12,7 +12,7 @@ public @interface TimerNinjaTracker {
 
     /**
      * The time unit to use for the tracker.
-     * Supported time units: second, millisecond (default), nanosecond
+     * Supported time units: second, millisecond (default), microsecond
      * */
     ChronoUnit timeUnit() default ChronoUnit.MILLIS;
 

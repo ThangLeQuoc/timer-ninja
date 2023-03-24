@@ -41,15 +41,16 @@ public aspect TimeTrackingAspect {
         Object object = proceed();
         long endTime = System.currentTimeMillis();
 
-        trackerItemContext.setExecutionTime(Math.toIntExact(endTime - startTime));
+        ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(methodSignature);
+        trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
+        trackerItemContext.setTimeUnit(trackingTimeUnit);
 
         if (isTrackerEnabled) {
             trackingCtx.decreasePointerDepth();
         }
 
         if (trackingCtx.getPointerDepth() == 0) {
-            System.out.println("(Process to print the local thread context stack....)");
-            TimerNinjaUtil.prettyPrintTimerContextTrace(trackingCtx);
+            TimerNinjaUtil.logTimerContextTrace(trackingCtx);
         }
 
         return object;
@@ -76,15 +77,17 @@ public aspect TimeTrackingAspect {
         long startTime = System.currentTimeMillis();
         Object object = proceed();
         long endTime = System.currentTimeMillis();
-        trackerItemContext.setExecutionTime(Math.toIntExact(endTime - startTime));
+
+        ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(constructorSignature);
+        trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
+        trackerItemContext.setTimeUnit(trackingTimeUnit);
 
         if (isTrackerEnabled) {
             trackingCtx.decreasePointerDepth();
         }
 
         if (trackingCtx.getPointerDepth() == 0) {
-            System.out.println("(Process to print the local thread context stack....)");
-            TimerNinjaUtil.prettyPrintTimerContextTrace(trackingCtx);
+            TimerNinjaUtil.logTimerContextTrace(trackingCtx);
         }
 
         return object;

@@ -1,10 +1,11 @@
 package com.github.thanglequoc.timerninja;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 public class SampleActiveTracker {
 
-    @TimerNinjaTracker(enabled = true)
+    @TimerNinjaTracker(enabled = true, timeUnit = ChronoUnit.SECONDS)
     public Integer getAccountNumber(String userName, int id) {
         try {
             Thread.sleep(2000);
