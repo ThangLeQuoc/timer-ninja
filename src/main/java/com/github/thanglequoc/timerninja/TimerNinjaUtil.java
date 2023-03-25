@@ -125,9 +125,10 @@ public class TimerNinjaUtil {
      *
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
-        System.out.printf("Timer Ninja time track trace context id: %s%n", timerNinjaThreadContext.getTraceContextId());
+        String traceContextId = timerNinjaThreadContext.getTraceContextId();
+        System.out.printf("Timer Ninja time track trace context id: %s%n", traceContextId);
         System.out.printf("Trace timestamp: %s%n", toUTCTimestampString(timerNinjaThreadContext.getCreationTime()));
-        System.out.println("--------------------------------------------");
+        System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
 
         timerNinjaThreadContext.getItemContextMap().values().stream().forEach(item-> {
             System.out.printf("%s%s - %d %s%n",
@@ -137,7 +138,8 @@ public class TimerNinjaUtil {
                 getPresentationUnit(item.getTimeUnit())
             );
         });
-        System.out.println("--------------------------------------------");
+
+        System.out.printf("{====== End of trace context id: %s ======}%n", traceContextId);
     }
 
     private static String generateIndent(int pointerDepth) {

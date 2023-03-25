@@ -87,8 +87,8 @@ https://www.albertgao.xyz/2018/01/18/how-to-publish-artifact-to-maven-central-vi
 **Tasks**
 - **DONE** -  Include the method signature in the output  
 - **DONE** Support different timeunit (s, ms<-default, ns)  
-- Generate unique time track trace id and trace timestamp  
-- (chore) Dynamically print the ---- separator base on the length?  
+- **DONE** Generate unique time track trace id and trace timestamp  
+- **DONE** (chore) Dynamically print the ---- separator base on the length?  
 - Integrate with SLF4J logging api, get rid of System.out (or maybe have a single tracker configuration instance that allow end user to toggle System out logging)
 - Add more test
 - Plan to migrate the code to `aspectj` folder to follow the convention?  
