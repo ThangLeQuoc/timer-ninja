@@ -24,6 +24,9 @@ Reference document:
 https://www.eclipse.org/aspectj/doc/released/runtime-api/org/aspectj/lang/Signature.html
 https://docs.freefair.io/gradle-plugins/current/reference/
 
+AspectJ build.gradle
+https://github.com/freefair/gradle-plugins/issues/53#issuecomment-519550317
+
 LOGO
 ```
 A logo for an application library called TimerNinja. There is a clock look human like (with arms, legs, eyes), his eyes are cover with Ninja cloth
