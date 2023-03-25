@@ -9,8 +9,12 @@ import java.time.temporal.ChronoUnit;
 
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TimerNinjaUtil {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(TimerNinjaUtil.class);
 
     /**
      * Determine if the TimerNinjaTracker is enabled
@@ -126,20 +130,35 @@ public class TimerNinjaUtil {
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
-        System.out.printf("Timer Ninja time track trace context id: %s%n", traceContextId);
-        System.out.printf("Trace timestamp: %s%n", toUTCTimestampString(timerNinjaThreadContext.getCreationTime()));
-        System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
+        boolean isSystemOutLogEnabled = TimerNinjaConfiguration.getInstance().isSystemOutLogEnabled();
+
+        String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
+        LOGGER.info("Timer Ninja time track trace context id: {}", traceContextId);
+        LOGGER.info("Trace timestamp: {}", utcTimeString);
+        LOGGER.info("{===== Start of trace context id: {} =====}", traceContextId);
+
+        if (isSystemOutLogEnabled) {
+            System.out.printf("Timer Ninja time track trace context id: %s%n", traceContextId);
+            System.out.printf("Trace timestamp: %s%n", utcTimeString);
+            System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
+        }
 
         timerNinjaThreadContext.getItemContextMap().values().stream().forEach(item-> {
-            System.out.printf("%s%s - %d %s%n",
-                generateIndent(item.getPointerDepth()),
-                item.getMethodName(),
-                item.getExecutionTime(),
-                getPresentationUnit(item.getTimeUnit())
-            );
+            String indent = generateIndent(item.getPointerDepth());
+            String methodName = item.getMethodName();
+            long executionTime = item.getExecutionTime();
+            String timeUnit = getPresentationUnit(item.getTimeUnit());
+
+            LOGGER.info("{}{} - {} {}", indent, methodName, executionTime, timeUnit);
+            if (isSystemOutLogEnabled) {
+                System.out.printf("%s%s - %d %s%n",indent, methodName, executionTime, timeUnit);
+            }
         });
 
-        System.out.printf("{====== End of trace context id: %s ======}%n", traceContextId);
+        LOGGER.info("{====== End of trace context id: {} ======}", traceContextId);
+        if (isSystemOutLogEnabled) {
+            System.out.printf("{====== End of trace context id: %s ======}%n", traceContextId);
+        }
     }
 
     private static String generateIndent(int pointerDepth) {

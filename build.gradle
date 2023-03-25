@@ -13,7 +13,8 @@ repositories {
 
 dependencies {
 
-    implementation group: 'org.aspectj', name: 'aspectjrt', version: '1.9.19'
+    implementation group: 'org.aspectj', name: 'aspectjrt', version: '[1.9.19,)'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '[2.0.7,)'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
