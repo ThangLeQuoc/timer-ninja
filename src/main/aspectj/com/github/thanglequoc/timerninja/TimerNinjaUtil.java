@@ -1,16 +1,16 @@
 package com.github.thanglequoc.timerninja;
 
+import org.aspectj.lang.reflect.ConstructorSignature;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
-import org.aspectj.lang.reflect.ConstructorSignature;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TimerNinjaUtil {
 

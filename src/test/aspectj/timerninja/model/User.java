@@ -1,6 +1,4 @@
-package com.github.thanglequoc.timerninja.model;
-
-import com.github.thanglequoc.timerninja.TimerNinjaTracker;
+package timerninja.model;
 
 public class User {
 
