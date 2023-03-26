@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja.model;
+package timerninja.model;
 
 import org.junit.jupiter.api.Test;
 

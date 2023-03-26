@@ -1,5 +1,6 @@
-package com.github.thanglequoc.timerninja;
+package timerninja;
 
+import com.github.thanglequoc.timerninja.TimerNinjaConfiguration;
 import org.junit.jupiter.api.Test;
 
 public class SampleActiveTrackerTest {
@@ -18,6 +19,7 @@ public class SampleActiveTrackerTest {
 
     @Test
     public void testNestedTracker() {
+        TimerNinjaConfiguration.getInstance().toggleSystemOutLog(true);
         SampleActiveTracker activeTracker = new SampleActiveTracker();
         activeTracker.nestedTrackerSample();
     }

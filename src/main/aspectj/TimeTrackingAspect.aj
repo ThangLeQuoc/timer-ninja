@@ -20,11 +20,19 @@ public aspect TimeTrackingAspect {
     pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker *.new(..));
 
     Object around(): methodAnnotatedWithTimerNinjaTracker() {
+
+        System.out.println("Ninja - Current Thread Name: " + Thread.currentThread().getName());
+        System.out.println("Ninja - Current Thread ID: " + Thread.currentThread().getId());
+
         StaticPart staticPart = thisJoinPointStaticPart;
         Signature signature = staticPart.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
 
+        if (isTrackingContextNull()) {
+            localTrackingCtx = initTrackingContext();
+        }
         TimerNinjaThreadContext trackingCtx = localTrackingCtx.get();
+
         boolean isTrackerEnabled = TimerNinjaUtil.isTimerNinjaTrackerEnabled(methodSignature);
 
         String methodSignatureString = TimerNinjaUtil.prettyGetMethodSignature(methodSignature);
@@ -50,6 +58,7 @@ public aspect TimeTrackingAspect {
 
         if (trackingCtx.getPointerDepth() == 0) {
             TimerNinjaUtil.logTimerContextTrace(trackingCtx);
+            localTrackingCtx.remove();
         }
 
         return object;
@@ -60,6 +69,9 @@ public aspect TimeTrackingAspect {
         Signature signature = staticPart.getSignature();
         ConstructorSignature constructorSignature = (ConstructorSignature) signature;
 
+        if (isTrackingContextNull()) {
+            localTrackingCtx = initTrackingContext();
+        }
         TimerNinjaThreadContext trackingCtx = localTrackingCtx.get();
         boolean isTrackerEnabled = TimerNinjaUtil.isTimerNinjaTrackerEnabled(constructorSignature);
 
@@ -86,16 +98,21 @@ public aspect TimeTrackingAspect {
 
         if (trackingCtx.getPointerDepth() == 0) {
             TimerNinjaUtil.logTimerContextTrace(trackingCtx);
+            localTrackingCtx.remove();
         }
 
         return object;
     }
 
-    private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() { // TODO @tle 22/3/2023: Ideally this initialization should only run once
+    private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() {
+        System.out.println("Initing tracking context by thread: " + Thread.currentThread().getName());
         ThreadLocal<TimerNinjaThreadContext> timerNinjaLocalThreadContext = new ThreadLocal<>();
         TimerNinjaThreadContext timerNinjaThreadContext = new TimerNinjaThreadContext();
-
         timerNinjaLocalThreadContext.set(timerNinjaThreadContext);
         return timerNinjaLocalThreadContext;
+    }
+
+    private static boolean isTrackingContextNull() {
+        return localTrackingCtx.get() == null;
     }
 }
