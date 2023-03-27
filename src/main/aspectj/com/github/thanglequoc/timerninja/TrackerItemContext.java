@@ -38,4 +38,9 @@ public class TrackerItemContext {
     public String getMethodName() {
         return methodName;
     }
+
+    @Override
+    public String toString() {
+        return "TrackerItemContext{" + "pointerDepth=" + pointerDepth + ", methodName='" + methodName + '\'' + ", executionTime=" + executionTime + ", timeUnit=" + timeUnit + '}';
+    }
 }

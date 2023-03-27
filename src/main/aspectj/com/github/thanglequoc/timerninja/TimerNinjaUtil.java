@@ -133,12 +133,12 @@ public class TimerNinjaUtil {
         boolean isSystemOutLogEnabled = TimerNinjaConfiguration.getInstance().isSystemOutLogEnabled();
 
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
-        LOGGER.info("Timer Ninja time track trace context id: {}", traceContextId);
+        LOGGER.info("Timer Ninja trace context id: {}", traceContextId);
         LOGGER.info("Trace timestamp: {}", utcTimeString);
         LOGGER.info("{===== Start of trace context id: {} =====}", traceContextId);
 
         if (isSystemOutLogEnabled) {
-            System.out.printf("Timer Ninja time track trace context id: %s%n", traceContextId);
+            System.out.printf("Timer Ninja trace context id: %s%n", traceContextId);
             System.out.printf("Trace timestamp: %s%n", utcTimeString);
             System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
         }
