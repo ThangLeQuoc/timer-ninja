@@ -12,12 +12,15 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * General utility class of TimerNinja library
+ * */
 public class TimerNinjaUtil {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TimerNinjaUtil.class);
 
     /**
-     * Determine if the TimerNinjaTracker is enabled
+     * Determine if the TimerNinjaTracker is enabled on the method signature annotated with {@code @TimerNinjaTracker} annotation
      * */
     public static boolean isTimerNinjaTrackerEnabled(MethodSignature methodSignature) {
         if (methodSignature == null) {
@@ -28,6 +31,9 @@ public class TimerNinjaUtil {
         return annotation.enabled();
     }
 
+    /**
+     * Determine if the TimerNinjaTracker is enabled on the constructor signature annotated with {@code @TimerNinjaTracker} annotation
+     * */
     public static boolean isTimerNinjaTrackerEnabled(ConstructorSignature constructorSignature) {
         if (constructorSignature == null) {
             throw new IllegalArgumentException("ConstructorSignature must be present");
@@ -37,7 +43,7 @@ public class TimerNinjaUtil {
     }
 
     /**
-     * Get the ChronoUnit setting
+     * Get the ChronoUnit setting of {@code @TimerNinjaTracker} annotation on method
      * */
     public static ChronoUnit getTrackingTimeUnit(MethodSignature methodSignature) {
         if (methodSignature == null) {
@@ -48,6 +54,9 @@ public class TimerNinjaUtil {
         return annotation.timeUnit();
     }
 
+    /**
+     * Get the ChronoUnit setting of {@code @TimerNinjaTracker} annotation on constructor
+     * */
     public static ChronoUnit getTrackingTimeUnit(ConstructorSignature constructorSignature) {
         if (constructorSignature == null) {
             throw new IllegalArgumentException("MethodSignature must be present");
@@ -58,7 +67,11 @@ public class TimerNinjaUtil {
     }
 
     /**
-     * Pretty get the method signature
+     * Pretty get the method signature, output include method modifier, name, and parameter name
+     *
+     * @param methodSignature The method signature
+     * @return The full method name, include method modifier, name, and parameters <br/>
+     * E.g: "public static String prettyGetMethodSignature(MethodSignature methodSignature)"
      * */
     public static String prettyGetMethodSignature(MethodSignature methodSignature) {
         StringBuilder sb = new StringBuilder();
@@ -89,6 +102,13 @@ public class TimerNinjaUtil {
         return sb.toString();
     }
 
+    /**
+     * Pretty get the method signature, output include method modifier, name, and parameter name
+     *
+     * @param constructorSignature The constructor signature
+     * @return The full method name, include method modifier, name, and parameters <br/>
+     * E.g: "public TrackerItemContext(String abc)"
+     * */
     public static String prettyGetConstructorSignature(ConstructorSignature constructorSignature) {
         StringBuilder sb = new StringBuilder();
 
@@ -117,16 +137,11 @@ public class TimerNinjaUtil {
     }
 
     /**
-     *
-     * Timer Ninja time track trace for uuid: 123-abc-def
-     * Trace timestamp: 2023-01-01 01:00:00:000.00Z
-     * -------------------------------------------------------
-     * Food orderFood() - 12000ms
-     *   |-- int subExecutionTime() - 1560ms
-     *     |-- RecordType insertRecord(int x, int y) - 1100ms
-     *     |-- Bank findBank(User u) - 500ms
-     * -------------------------------------------------------
-     *
+     * Print the time tracking execution trace. <br/>
+     * The output include the timer ninja trace context id, creation date of the tracking context, and the detailed
+     * execution time. <br/>
+     * The result is printed to the slf4j logger API. <br/>
+     * Can be toggled to also print to System.out by setting the flag in {@code TimerNinjaConfiguration} class
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
@@ -161,6 +176,9 @@ public class TimerNinjaUtil {
         }
     }
 
+    /**
+     * Generate the indent "|-- " with prefix empty space depends on the depth of the pointer of this tracker method
+     * */
     private static String generateIndent(int pointerDepth) {
         if (pointerDepth == 0) {
             return "";
@@ -174,6 +192,14 @@ public class TimerNinjaUtil {
         return sb.toString();
     }
 
+    /**
+     * Convert time in millisecond to
+     * @param timeInMillis Time in millisecond
+     * @param unitToConvert The ChronoUnit to convert the input timeInMillis into
+     * @return Time in the specify {@code ChronoUnit}
+     *
+     * @throws IllegalStateException if the unitToConvert is not one of the supported time unit of this timer ninja library
+     * */
     public static long convertFromMillis(long timeInMillis, ChronoUnit unitToConvert) {
        if (ChronoUnit.MILLIS.equals(unitToConvert)) {
            return timeInMillis;
@@ -186,6 +212,12 @@ public class TimerNinjaUtil {
        throw new IllegalStateException("Time unit not supported");
     }
 
+    /**
+     * Get the short form presentation unit of the ChronoUnit
+     * @param chronoUnit The ChronoUnit
+     * @return The short presentation unit display. E.g: s, ms,...
+     * @throws IllegalStateException if the unitToConvert is not one of the supported time unit of this timer ninja library
+     * */
     private static String getPresentationUnit(ChronoUnit chronoUnit) {
         if (ChronoUnit.MILLIS.equals(chronoUnit)) {
             return "ms";
@@ -197,6 +229,12 @@ public class TimerNinjaUtil {
         throw new IllegalStateException("Time unit not supported");
     }
 
+    /**
+     * Convert instance to UTC timestamp string
+     * @param instant The time instant
+     * @return Time string in UTC zone with pattern yyyy-MM-dd'T'HH:mm:ss.SSS'Z'<br/>
+     * E.g: 2023-03-27T11:24:46.948Z
+     * */
     private static String toUTCTimestampString(Instant instant) {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                                 .withZone(ZoneOffset.UTC)

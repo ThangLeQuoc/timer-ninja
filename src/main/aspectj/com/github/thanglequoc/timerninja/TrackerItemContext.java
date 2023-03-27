@@ -2,12 +2,30 @@ package com.github.thanglequoc.timerninja;
 
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Class to store a single tracker item context of the method/constructor that is annotated with {@code @TimerNinjaTracker} and is being
+ * evaluated in the AspectJ advice invocation.
+ * */
 public class TrackerItemContext {
 
+    /**
+     * The relative pointer depth of this method compare to the root tracker method
+     * */
     private final int pointerDepth;
 
+    /**
+     * The tracking method name
+     * */
     private String methodName;
+
+    /**
+     * Total execution time of this method
+     * */
     private long executionTime;
+
+    /**
+     * Time unit
+     * */
     private ChronoUnit timeUnit;
 
     TrackerItemContext(int pointerDepth, String methodName) {

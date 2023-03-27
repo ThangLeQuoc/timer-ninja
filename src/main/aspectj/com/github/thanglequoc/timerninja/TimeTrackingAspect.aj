@@ -10,6 +10,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import static com.github.thanglequoc.timerninja.TimerNinjaThreadContext.LOGGER;
 
+/**
+ * TimeTracking aspect definition
+ * */
 public aspect TimeTrackingAspect {
 
     private static ThreadLocal<TimerNinjaThreadContext> localTrackingCtx = initTrackingContext();
@@ -17,10 +20,12 @@ public aspect TimeTrackingAspect {
     /**
      * Point cut is any method, or constructor annotated with @TimerNinjaTracker
      * */
-    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker * * (..));
+    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@com.github.thanglequoc.timerninja.TimerNinjaTracker * * (..));
+    pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@com.github.thanglequoc.timerninja.TimerNinjaTracker *.new(..));
 
-    pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker *.new(..));
-
+    /**
+     * Around advice for method that is annotated with {@code @TimerNinjaTracker} annotation
+     * */
     Object around(): methodAnnotatedWithTimerNinjaTracker() {
         StaticPart staticPart = thisJoinPointStaticPart;
         Signature signature = staticPart.getSignature();
@@ -74,6 +79,9 @@ public aspect TimeTrackingAspect {
         return object;
     }
 
+    /**
+     * Around advice for constructor that is annotated with {@code @TimerNinjaTracker} annotation
+     * */
     Object around(): constructorAnnotatedWithTimerNinjaTracker() {
         StaticPart staticPart = thisJoinPointStaticPart;
         Signature signature = staticPart.getSignature();
@@ -126,6 +134,9 @@ public aspect TimeTrackingAspect {
         return object;
     }
 
+    /**
+     * Static method to initiate a new Timer Ninja tracking context associated with the current execution thread
+     * */
     private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() {
         Thread currentThread = Thread.currentThread();
         ThreadLocal<TimerNinjaThreadContext> timerNinjaLocalThreadContext = new ThreadLocal<>();
