@@ -17,9 +17,9 @@ public aspect TimeTrackingAspect {
     /**
      * Point cut is any method, or constructor annotated with @TimerNinjaTracker
      * */
-    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker * * (..));
+    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@com.github.thanglequoc.timerninja.TimerNinjaTracker * * (..));
 
-    pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@TimerNinjaTracker *.new(..));
+    pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@com.github.thanglequoc.timerninja.TimerNinjaTracker *.new(..));
 
     Object around(): methodAnnotatedWithTimerNinjaTracker() {
         StaticPart staticPart = thisJoinPointStaticPart;
