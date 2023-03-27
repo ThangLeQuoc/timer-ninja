@@ -79,6 +79,9 @@ public aspect TimeTrackingAspect {
         return object;
     }
 
+    /**
+     * Around advice for constructor that is annotated with {@code @TimerNinjaTracker} annotation
+     * */
     Object around(): constructorAnnotatedWithTimerNinjaTracker() {
         StaticPart staticPart = thisJoinPointStaticPart;
         Signature signature = staticPart.getSignature();
@@ -131,6 +134,9 @@ public aspect TimeTrackingAspect {
         return object;
     }
 
+    /**
+     * Static method to initiate a new Timer Ninja tracking context associated with the current execution thread
+     * */
     private static ThreadLocal<TimerNinjaThreadContext> initTrackingContext() {
         Thread currentThread = Thread.currentThread();
         ThreadLocal<TimerNinjaThreadContext> timerNinjaLocalThreadContext = new ThreadLocal<>();
