@@ -1,6 +1,4 @@
-package timerninja;
-
-import com.github.thanglequoc.timerninja.TimerNinjaTracker;
+package com.github.thanglequoc.timerninja;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
