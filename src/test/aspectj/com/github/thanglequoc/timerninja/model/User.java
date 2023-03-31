@@ -1,4 +1,4 @@
-package timerninja.model;
+package com.github.thanglequoc.timerninja.model;
 
 public class User {
 
