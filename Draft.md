@@ -1,21 +1,5 @@
 
 
-
-
-
-Future plan look like
-```shell
-Timer Ninja time track trace for uuid: 123-abc-def
-Trace timestamp: 2023-01-01 01:00:00:000.00Z
--------------------------------------------------------
-Food orderFood() - 12000ms
-  |-- int subExecutionTime() - 1560ms
-    |-- RecordType insertRecord(int x, int y) - 1100ms
-    |-- Bank findBank(User u) - 500ms
--------------------------------------------------------
-```
-
-
 Reference document:
 https://www.eclipse.org/aspectj/doc/released/runtime-api/org/aspectj/lang/Signature.html
 https://docs.freefair.io/gradle-plugins/current/reference/
@@ -50,7 +34,7 @@ https://central.sonatype.org/publish/publish-guide/
 - Add test on single tracker
 - Nested tracker
 - Tracker enabling
-- Tracker wiht multithreaded execution (multiple threads, completablefuture API, etc...)  
+- Tracker with multithreaded execution (multiple threads, completablefuture API, etc...)  
   **Publication plan**
 - Publish to maven central repository
 - Create another project to test the integration (Spring Boot)
