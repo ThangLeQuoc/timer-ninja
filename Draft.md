@@ -25,15 +25,15 @@ https://central.sonatype.org/publish/publish-guide/
 - **DONE** Generate unique time track trace id and trace timestamp
 - **DONE** (chore) Dynamically print the ---- separator base on the length?
 - **DONE** Integrate with SLF4J logging api, get rid of System.out (or maybe have a single tracker configuration instance that allow end user to toggle System out logging)
-- Add more test
+- **DONE** Add more test
 - **DONE** Plan to migrate the code to `aspectj` folder to follow the convention?
 - Performance tuning?
 - Benchmark testing plan?
 - Code refactoring  
   **Test plan**
-- Add test on single tracker
-- Nested tracker
-- Tracker enabling
+- **DONE** Add test on single tracker
+- **DONE** Nested tracker
+- **DONE** Tracker enabling
 - Tracker with multithreaded execution (multiple threads, completablefuture API, etc...)  
   **Publication plan**
 - Publish to maven central repository
