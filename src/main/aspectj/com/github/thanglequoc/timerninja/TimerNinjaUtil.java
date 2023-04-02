@@ -150,6 +150,15 @@ public class TimerNinjaUtil {
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
         LOGGER.info("Timer Ninja trace context id: {}", traceContextId);
         LOGGER.info("Trace timestamp: {}", utcTimeString);
+
+        if (timerNinjaThreadContext.getItemContextMap().isEmpty()) {
+            LOGGER.warn("There isn't any tracker enabled in the tracking context");
+            if (isSystemOutLogEnabled) {
+                System.out.println("There isn't any tracker enabled in the tracking context");
+            }
+            return;
+        }
+
         LOGGER.info("{===== Start of trace context id: {} =====}", traceContextId);
 
         if (isSystemOutLogEnabled) {
