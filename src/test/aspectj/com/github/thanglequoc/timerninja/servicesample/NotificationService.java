@@ -3,8 +3,6 @@ package com.github.thanglequoc.timerninja.servicesample;
 import com.github.thanglequoc.timerninja.TimerNinjaTracker;
 
 public class NotificationService {
-
-    @TimerNinjaTracker(enabled = false)
     public NotificationService() {
         try {
             Thread.sleep(80);

@@ -153,10 +153,6 @@ public class TimerNinjaUtil {
 
         if (timerNinjaThreadContext.getItemContextMap().isEmpty()) {
             LOGGER.warn("There isn't any tracker enabled in the tracking context");
-            if (isSystemOutLogEnabled) {
-                System.out.println("There isn't any tracker enabled in the tracking context");
-            }
-            return;
         }
 
         LOGGER.info("{===== Start of trace context id: {} =====}", traceContextId);
@@ -164,7 +160,12 @@ public class TimerNinjaUtil {
         if (isSystemOutLogEnabled) {
             System.out.printf("Timer Ninja trace context id: %s%n", traceContextId);
             System.out.printf("Trace timestamp: %s%n", utcTimeString);
-            System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
+            if (isSystemOutLogEnabled) {
+                System.out.println("There isn't any tracker enabled in the tracking context");
+                return;
+            } else {
+                System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
+            }
         }
 
         timerNinjaThreadContext.getItemContextMap().values().stream().forEach(item-> {

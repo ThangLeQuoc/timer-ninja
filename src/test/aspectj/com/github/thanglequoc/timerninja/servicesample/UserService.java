@@ -5,8 +5,6 @@ import java.time.temporal.ChronoUnit;
 import com.github.thanglequoc.timerninja.TimerNinjaTracker;
 
 public class UserService {
-
-    @TimerNinjaTracker
     public UserService() {
         try {
             Thread.sleep(100);
