@@ -8,8 +8,9 @@ public class PaymentService {
     private NotificationService notificationService;
 
     @TimerNinjaTracker
-    public PaymentService(CardService cardService) {
+    public PaymentService(CardService cardService, NotificationService notificationService) {
         this.cardService = cardService;
+        this.notificationService = notificationService;
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {
@@ -17,8 +18,9 @@ public class PaymentService {
         }
     }
 
+    @TimerNinjaTracker
     public void processPayment(User user, int amount) {
-        cardService.deductAmount(user, amount);
+        cardService.changeAmount(user, amount);
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {

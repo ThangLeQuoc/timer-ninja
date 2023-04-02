@@ -8,42 +8,39 @@ import com.github.thanglequoc.timerninja.TimerNinjaTracker;
     public class BankService {
 
         private PaymentService paymentService;
+        private UserService userService;
 
-        @TimerNinjaTracker(enabled = false)
+        @TimerNinjaTracker
         public BankService() {
             CardService cardService = new CardService();
+            NotificationService notificationService = new NotificationService();
             try {
                 Thread.sleep(90);
-                paymentService = new PaymentService(cardService);
+                this.paymentService = new PaymentService(cardService, notificationService);
+                this.userService = new UserService();
 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
-
-    
-        @TimerNinjaTracker
-        String getBankNumber(User user) {
-            return "abc";
         }
     
         @TimerNinjaTracker
-        public static final String getBankName() {
-            connectingToExternalNamingService();
+        public String getBankNumber(int userId) {
+            User user = userService.findUser(userId);
             try {
-                Thread.sleep(300);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            return "tle bank";
+            return "BankAccountNo-" + user.getId();
         }
 
         @TimerNinjaTracker
-        private static void connectingToExternalNamingService() {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount) {
+            User sourceUser = userService.findUser(sourceUserId);
+            User targetUser = userService.findUser(targetUserId);
+            paymentService.processPayment(sourceUser, amount);
+            paymentService.processPayment(sourceUser, -amount);
         }
+
     }

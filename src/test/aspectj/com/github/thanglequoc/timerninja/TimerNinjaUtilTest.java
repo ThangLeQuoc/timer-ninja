@@ -46,6 +46,21 @@ public class TimerNinjaUtilTest {
     }
 
     @Test
+    public void testLogTimerContextTrace_EmptyContextItems() {
+        TimerNinjaThreadContext timerNinjaThreadContext = createEmptyContext();
+        TimerNinjaUtil.logTimerContextTrace(timerNinjaThreadContext);
+
+        List<String> loggingMessages = logCaptureExtension.getFormattedMessages();
+        assertFalse(loggingMessages.isEmpty());
+
+        String traceContextId = timerNinjaThreadContext.getTraceContextId();
+
+        assertEquals(String.format("Timer Ninja trace context id: %s", traceContextId), loggingMessages.get(0));
+        assertTrue(loggingMessages.get(1).contains("Trace timestamp"));
+        assertTrue(loggingMessages.get(2).contains("There isn't any tracker enabled in the tracking context"));
+    }
+
+    @Test
     public void testConvertFromMillis() {
         assertEquals(8, TimerNinjaUtil.convertFromMillis(8000, ChronoUnit.SECONDS));
         assertEquals(8000000, TimerNinjaUtil.convertFromMillis(8000, ChronoUnit.MICROS));
@@ -76,6 +91,11 @@ public class TimerNinjaUtilTest {
         threadContext.addItemContext("123-aaa-dd", processPaymentItem);
         threadContext.addItemContext("123-aaa-ee", deductItem);
         threadContext.addItemContext("123-aaa-ff", notifyTracker);
+        return threadContext;
+    }
+
+    private TimerNinjaThreadContext createEmptyContext() {
+        TimerNinjaThreadContext threadContext = new TimerNinjaThreadContext();
         return threadContext;
     }
 }
