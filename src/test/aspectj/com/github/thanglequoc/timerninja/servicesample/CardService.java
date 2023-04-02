@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja.model;
+package com.github.thanglequoc.timerninja.servicesample;
 
 /**
  * Dummy card service for testing purpose
