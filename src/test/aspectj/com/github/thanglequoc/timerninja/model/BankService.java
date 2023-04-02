@@ -2,21 +2,20 @@ package com.github.thanglequoc.timerninja.model;
 
 import com.github.thanglequoc.timerninja.TimerNinjaTracker;
 
-/**
-     * Dummy service class for testing purpose
-     * */
+    /**
+    * Dummy service class for testing purpose
+    * */
     public class BankService {
 
         private PaymentService paymentService;
 
         @TimerNinjaTracker(enabled = false)
         public BankService() {
+            CardService cardService = new CardService();
             try {
                 Thread.sleep(90);
-                paymentService = new PaymentService();
-                paymentService.warmUp();
-                paymentService.warmUp2();
-                paymentService.warmUp3();
+                paymentService = new PaymentService(cardService);
+
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -46,12 +45,5 @@ import com.github.thanglequoc.timerninja.TimerNinjaTracker;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
-
-        @TimerNinjaTracker
-        public void testPaymentServiceConnections() {
-            paymentService.warmUp();
-            paymentService.warmUp2();
-            paymentService.warmUp3();
         }
     }
