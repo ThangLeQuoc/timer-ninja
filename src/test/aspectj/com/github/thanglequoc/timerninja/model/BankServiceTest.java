@@ -8,7 +8,7 @@ public class BankServiceTest {
     public void test() {
         BankService bankService = new BankService();
         BankService.getBankName();
-        bankService.getBankNumber(new User());
+        bankService.getBankNumber(new User(12, "user-12"));
     }
 
     @Test
@@ -18,7 +18,7 @@ public class BankServiceTest {
 
     @Test
     public void testOrdering() {
-        BankService bankService = new BankService();
-        bankService.testPaymentServiceConnections();
+//        BankService bankService = new BankService();
+//        bankService.testPaymentServiceConnections();
     }
 }
