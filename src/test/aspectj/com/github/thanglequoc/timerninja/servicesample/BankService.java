@@ -10,7 +10,6 @@ import com.github.thanglequoc.timerninja.TimerNinjaTracker;
         private PaymentService paymentService;
         private UserService userService;
 
-        @TimerNinjaTracker
         public BankService() {
             CardService cardService = new CardService();
             NotificationService notificationService = new NotificationService();

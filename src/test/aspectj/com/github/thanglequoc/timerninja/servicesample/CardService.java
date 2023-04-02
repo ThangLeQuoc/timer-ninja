@@ -6,8 +6,6 @@ import com.github.thanglequoc.timerninja.TimerNinjaTracker;
  * Dummy card service for testing purpose
  * */
 public class CardService {
-
-    @TimerNinjaTracker
     public CardService() {
         try {
             Thread.sleep(150);

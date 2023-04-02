@@ -7,7 +7,6 @@ public class PaymentService {
     private CardService cardService;
     private NotificationService notificationService;
 
-    @TimerNinjaTracker
     public PaymentService(CardService cardService, NotificationService notificationService) {
         this.cardService = cardService;
         this.notificationService = notificationService;
@@ -28,6 +27,4 @@ public class PaymentService {
         }
         notificationService.notify(user);
     }
-
-
 }
