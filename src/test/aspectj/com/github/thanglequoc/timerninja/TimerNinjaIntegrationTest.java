@@ -63,12 +63,12 @@ public class TimerNinjaIntegrationTest {
         assertTrue(formattedMessages.get(7).contains("    |-- public boolean changeAmount(User user, int amount) -"));
         assertTrue(formattedMessages.get(8).contains("    |-- public void notify(User user) -"));
         assertTrue(formattedMessages.get(9).contains("      |-- private void notifyViaSMS(User user) -"));
-        assertTrue(formattedMessages.get(10).contains("      |-- private void notifyViaEmail(User user) -"));
-        assertTrue(formattedMessages.get(11).contains("  |-- public void processPayment(User user, int amount) -"));
-        assertTrue(formattedMessages.get(12).contains("    |-- public boolean changeAmount(User user, int amount) -"));
-        assertTrue(formattedMessages.get(13).contains("    |-- public void notify(User user) -"));
-        assertTrue(formattedMessages.get(14).contains("      |-- private void notifyViaSMS(User user) -"));
-        assertTrue(formattedMessages.get(15).contains("      |-- private void notifyViaEmail(User user) -"));
+        assertTrue(formattedMessages.get(10).contains("     |-- private void notifyViaEmail(User user) -"));
+        assertTrue(formattedMessages.get(11).contains(" |-- public void processPayment(User user, int amount) -"));
+        assertTrue(formattedMessages.get(12).contains("   |-- public boolean changeAmount(User user, int amount) -"));
+        assertTrue(formattedMessages.get(13).contains("   |-- public void notify(User user) -"));
+        assertTrue(formattedMessages.get(14).contains("     |-- private void notifyViaSMS(User user) -"));
+        assertTrue(formattedMessages.get(15).contains("     |-- private void notifyViaEmail(User user) -"));
         assertTrue(formattedMessages.get(16).contains("{====== End of trace context id:"));
     }
 }
