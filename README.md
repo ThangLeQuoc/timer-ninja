@@ -4,7 +4,7 @@ Timer Ninja follows the Aspect Oriented Programming (AOP) concept, backed by Asp
 to declare tracker on method.
 
 ## Problem Space
-Measuring the method execution time is a super common thing in the programmer world. It's all about 
+Measuring the method execution time is a super common thing in the programmer world.
 
 ### Traditional approach
 The traditional approach is to get the different between two timestamp points before and after the method is executed.
