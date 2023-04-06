@@ -1,3 +1,4 @@
+![TimerNinjaBanner](https://i.imgur.com/dOdfZmV.png)
 # Timer Ninja
 Timer Ninja is a brainless Java library to evaluate your Java code method execution time.
 Timer Ninja follows the Aspect Oriented Programming (AOP) concept, backed by AspectJ, to make it super simple
