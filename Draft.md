@@ -9,12 +9,6 @@ https://github.com/freefair/gradle-plugins/issues/53#issuecomment-519550317
 Different type of AspectJ weaving: https://dzone.com/articles/different-types-of-aspectj-weaving
 
 
-LOGO
-```
-A logo for an application library called TimerNinja. There is a clock look human like (with arms, legs, eyes), his eyes are cover with Ninja cloth
-```
-
-
 Artifact Publishing
 https://www.albertgao.xyz/2018/01/18/how-to-publish-artifact-to-maven-central-via-gradle/
 https://central.sonatype.org/publish/publish-guide/
@@ -38,11 +32,10 @@ https://central.sonatype.org/publish/publish-guide/
   **Publication plan**
 - Publish to maven central repository
 - Create another project to test the integration (Spring Boot)
-- Test integration with maven project
+- **DONE** Test integration with maven project
 
 
-Problem with Spring Boot Worker Thread
-
+Problem with Spring Boot Worker Thread  
 (document this more carefully)
 No, when a thread is returned to the ThreadPool in Tomcat NIO, the ThreadLocal of that thread is not preserved. The ThreadLocal values are associated with the thread that created them, and when that thread is returned to the thread pool, its associated ThreadLocal values are not transferred to other threads.
 Therefore, if you are using ThreadLocal in a multi-threaded environment, you need to be aware that the values stored in the ThreadLocal may not be available in subsequent requests. One approach to dealing with this is to set up a request filter or interceptor to initialize and clean up the ThreadLocal values for each request.
