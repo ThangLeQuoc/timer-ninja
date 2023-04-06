@@ -15,5 +15,6 @@ public class TrackerItemContextTest {
         itemContext.setExecutionTime(260);
         String expectedResult = "TrackerItemContext{pointerDepth=12, methodName='public boolean deductAmount(User user, int amount)', executionTime=260, timeUnit=Millis}";
         assertEquals(expectedResult, itemContext.toString());
+        TimerNinjaConfiguration.getInstance().toggleSystemOutLog(true);
     }
 }

@@ -48,15 +48,13 @@ public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount)
 {====== End of trace context id: 851ac23b-2669-4883-8c97-032b8fd2d45c ======}
 ```
 
-
 ## Installation
 For this to work, you will need to do two thing: declare a dependency of `timer-ninja`, and a plugin to compile
 the aspect defined in `timer-ninja` dependency
 
 I'm working very hard to ship this library to the Maven central repository
 
-
-### Declaring dependency on timer-ninja
+### Declare dependency on timer-ninja
 **Gradle**  
 ```groovy
 implementation group: 'com.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
@@ -142,5 +140,41 @@ Example project's `pom.xml`
 </build>
 ```
 
-## Usage
+### Getting the time trace output
+The library is logging the time trace with [SLF4J Logger](https://www.slf4j.org/). So if you've already had an Slf4j provider (e.g: Logback, Log4J) in your project, then
+you should be able to see the time trace output after the method executed.  
+Otherwise, you will need to add a log provider into the project, my personal recommendation is [Logback](https://logback.qos.ch/) for 
+robustness and simplicity. You can refer to this [Logback tutorial from Baeldung](https://www.baeldung.com/logback)
 
+See this [Slf4j manual](https://slf4j.org/manual.html) for how to configure your logging framework with Slf4j
+
+**Note**: Spring Boot project uses Logback as it default log provider, so you don't need to do anything here.
+
+If logging framework is not your preference, and you just want to have a quick result. Then you can choose to fall back
+to the good old `System.out.println` output by executing this code **once** (since this is a singleton configuration instance)
+
+```java
+TimerNinjaConfiguration.getInstance().toggleSystemOutLog(true);
+```
+
+
+## Usage
+Now that you're all set and ready to go. Just simply place the tracker by annotating `@TimerNinjaTracker` on any method/constructor
+that you want to measure
+
+```java
+@TimerNinjaTracker
+public String placeOrder(Order order) {
+     
+}
+```
+
+By default, the time unit of the tracker is **millisecond (ms)**. You can freely choose other timeunit with the parameter within the annotation
+```java
+import java.time.temporal.ChronoUnit;
+
+@TimerNinjaTracker(timeUnit = ChronoUnit.MICROS)
+public String placeOrder(Order order) {
+
+}
+```
