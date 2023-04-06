@@ -190,8 +190,11 @@ Once the method is executed, you should be able to find the result similar to th
 2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          :   |-- public User findUserById(int userId) - 251 ms
 2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          : {====== End of trace context id: c9ffeb39-3457-48d4-9b73-9ffe7d612165 ======}
 ```
-
-
+In detail:  
+`Timer Ninja trace context id`: The auto generated uuid of a trace context. A trace context is initiated for the very first method encountered with `@TimerNinjaTracker` annotation.
+Any sequence execution of other annotated tracker methods inside the parent method will also be accounted for in the existing trace context.  
+`Trace timestamp`: The timestamp when the trace context is initiated, in UTC timezone.  
+`Begin-end of trace context`: The detailed execution time of each method. The `|--` sign indicate the call to this method originated from the above parent method, which help to visualize the execution stacktrace.
 
 ## Troubleshooting
 
