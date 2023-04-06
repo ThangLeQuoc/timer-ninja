@@ -63,8 +63,7 @@ cd timer-ninja
 ./gradlew build
 ./gradlew publishToMavenLocal
 ```
-Then you shall be able to continue using without any problem.
-
+Then you shall be able to continue without any problem.
 
 ### Declare dependency on timer-ninja
 **Gradle**  
