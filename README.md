@@ -52,7 +52,19 @@ public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount)
 For this to work, you will need to do two thing: declare a dependency of `timer-ninja`, and a plugin to compile
 the aspect defined in `timer-ninja` dependency
 
-I'm working very hard to ship this library to the Maven central repository
+🙈 **Head up! This library has not yet been published to Maven central repository!**   
+If you're reading this, then this library has not yet make it way to Maven central repository to download.  
+I'm working very hard to ship this library to the Maven central repository in a few more days.   
+In the meantime, please check out and build, then publish this dependency to your local maven repository in order to use
+
+```bash
+git clone https://github.com/ThangLeQuoc/timer-ninja.git
+cd timer-ninja
+./gradlew build
+./gradlew publishToMavenLocal
+```
+Then you shall be able to continue using without any problem.
+
 
 ### Declare dependency on timer-ninja
 **Gradle**  
@@ -150,6 +162,8 @@ See this [Slf4j manual](https://slf4j.org/manual.html) for how to configure your
 
 **Note**: Spring Boot project uses Logback as it default log provider, so you don't need to do anything here.
 
+The logger class is `com.github.thanglequoc.timerninja.TimerNinjaUtil`, with the default log level is `INFO`.
+
 If logging framework is not your preference, and you just want to have a quick result. Then you can choose to fall back
 to the good old `System.out.println` output by executing this code **once** (since this is a singleton configuration instance). This setting will instruct
 Timer Ninja to also print the time trace output to `System.out`
@@ -197,11 +211,14 @@ Any sequence execution of other annotated tracker methods inside the parent meth
 `Begin-end of trace context`: The detailed execution time of each method. The `|--` sign indicate the call to this method originated from the above parent method, which help to visualize the execution stacktrace.
 
 ## Troubleshooting
+If you need to troubleshoot, you can toggle the `DEBUG` log level on logger `com.github.thanglequoc.timerninja.TimerNinjaThreadContext`.
 
 ## Issue and contribution
 
 ## Example projects
-Below are some example projects which has Timer Ninja integrated for your setup reference  
+Below are some example projects which has Timer Ninja integrated for your setup reference 
+
+(WIP by thanglequoc)  
 [Spring Boot ToDo List - Gradle build](#)  
 [Spring Boot ToDo List - Maven build](#)
 
