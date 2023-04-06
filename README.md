@@ -151,12 +151,12 @@ See this [Slf4j manual](https://slf4j.org/manual.html) for how to configure your
 **Note**: Spring Boot project uses Logback as it default log provider, so you don't need to do anything here.
 
 If logging framework is not your preference, and you just want to have a quick result. Then you can choose to fall back
-to the good old `System.out.println` output by executing this code **once** (since this is a singleton configuration instance)
+to the good old `System.out.println` output by executing this code **once** (since this is a singleton configuration instance). This setting will instruct
+Timer Ninja to also print the time trace output to `System.out`
 
 ```java
 TimerNinjaConfiguration.getInstance().toggleSystemOutLog(true);
 ```
-
 
 ## Usage
 Now that you're all set and ready to go. Just simply place the tracker by annotating `@TimerNinjaTracker` on any method/constructor
@@ -178,3 +178,29 @@ public String placeOrder(Order order) {
 
 }
 ```
+
+### Reading the time trace output
+Once the method is executed, you should be able to find the result similar to this one in the output/log
+
+```log
+2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          : Timer Ninja trace context id: c9ffeb39-3457-48d4-9b73-9ffe7d612165
+2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          : Trace timestamp: 2023-04-06T14:27:50.322Z
+2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          : {===== Start of trace context id: c9ffeb39-3457-48d4-9b73-9ffe7d612165 =====}
+2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          : public User getUserById(int userId) - 554 ms
+2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          :   |-- public User findUserById(int userId) - 251 ms
+2023-04-06T21:27:50.878+07:00  INFO 14796 --- [nio-8080-exec-1] c.g.t.timerninja.TimerNinjaUtil          : {====== End of trace context id: c9ffeb39-3457-48d4-9b73-9ffe7d612165 ======}
+```
+
+
+
+## Troubleshooting
+
+## Issue and contribution
+
+## Example projects
+Below are some example projects which has Timer Ninja integrated for your setup reference  
+[Spring Boot ToDo List - Gradle build](#)  
+[Spring Boot ToDo List - Maven build](#)
+
+
+###### References
