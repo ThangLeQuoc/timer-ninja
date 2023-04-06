@@ -49,13 +49,97 @@ public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount)
 
 
 ## Installation
-(WIP)
-
-
+For this to work, you will need to do two thing: declare a dependency of `timer-ninja`, and a plugin to compile
+the aspect defined in `timer-ninja` dependency
 
 I'm working very hard to ship this library to the Maven central repository
 
 
+### Declaring dependency on timer-ninja
+**Gradle**  
+```groovy
+implementation group: 'com.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
+```
+
+**Maven**  
+```xml
+<dependency>
+    <groupId>com.github.thanglequoc</groupId>
+    <artifactId>timer-ninja</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <scope>compile</scope>
+</dependency>
+```
+
+### Declare plugin to compile the aspect
+**Gradle**  
+You can use the [FreeFair AspectJ Gradle plugin](https://github.com/freefair/gradle-plugins)
+
+Example project's `build.gradle`:
+
+```groovy
+plugins {
+    // ...
+    id "io.freefair.aspectj.post-compile-weaving" version '6.6.3'
+}
+
+dependencies {
+    // ...
+    // Timer ninja dependency
+    implementation group: 'com.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
+    aspect 'com.github.thanglequoc:timer-ninja:1.1-SNAPSHOT'
+}
+```
+
+### Maven project
+You can use the [Mojo's AspectJ Plugin](https://www.mojohaus.org/aspectj-maven-plugin/index.html)  
+Example project's `pom.xml`
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjrt</artifactId>
+        <version>1.9.7</version>
+    </dependency>
+    <dependency>
+        <groupId>com.github.thanglequoc</groupId>
+        <artifactId>timer-ninja</artifactId>
+        <version>1.1-SNAPSHOT</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+
+<build>
+    <plugins>
+        <!-- Codehaus Maven plugin -->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>aspectj-maven-plugin</artifactId>
+            <version>1.14.0</version>
+            <configuration>
+                <complianceLevel>11</complianceLevel>
+                <source>11</source>
+                <target>11</target>
+                <!-- Specify timer-ninja as the aspect library -->
+                <aspectLibraries>
+                    <aspectLibrary>
+                        <groupId>com.github.thanglequoc</groupId>
+                        <artifactId>timer-ninja</artifactId>
+                    </aspectLibrary>
+                </aspectLibraries>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
 
 ## Usage
 
