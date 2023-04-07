@@ -218,8 +218,8 @@ If you need to troubleshoot, you can toggle the `DEBUG` log level on logger `com
 Below are some example projects which has Timer Ninja integrated for your setup reference 
 
 (WIP by thanglequoc)  
-[Spring Boot ToDo List - Gradle build](#)  
-[Spring Boot ToDo List - Maven build](#)
+[Spring Boot ToDo List - Gradle build](https://github.com/ThangLeQuoc/timer-ninja-examples/tree/main/timerninja-todolist-gradle)  
+[Spring Boot ToDo List - Maven build](https://github.com/ThangLeQuoc/timer-ninja-examples/tree/main/timerninja-todolist-maven)
 
 
 ###### References
