@@ -2,11 +2,17 @@ plugins {
     id 'java-library'
     id "io.freefair.aspectj" version '6.6.3'
     id 'maven-publish'
+    id 'signing'
 }
 
 group 'io.github.thanglequoc'
 version '1.0.0'
 sourceCompatibility = '11'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
@@ -31,10 +37,70 @@ test {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId = 'timer-ninja'
             from components.java
+
+            pom {
+                name = 'Timer Ninja'
+                description = 'A handy Java utility to help you evaluate the total execution time of your Java method'
+                url = 'https://github.com/ThangLeQuoc/timer-ninja'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'thanglequoc'
+                        name = 'Thang Le Quoc'
+                        email = 'thanglequoc.it@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/ThangLeQuoc/timer-ninja.git'
+                    developerConnection = 'scm:git:ssh://github.com/ThangLeQuoc/timer-ninja.git'
+                    url = 'https://github.com/ThangLeQuoc/timer-ninja'
+                }
+            }
         }
     }
     repositories {
         mavenLocal()
+        maven {
+            name = 'sonartype'
+            def releasesRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username = project.property('ossrhUsername')
+                password = project.property('ossrhPassword')
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
     }
 }
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+//task javadocJar(type: Jar) {
+//    archiveClassifier = 'javadoc'
+//    from javadoc
+//}
+//
+//task sourcesJar(type: Jar) {
+//    archiveClassifier = 'sources'
+//    from sourceSets.main.allSource
+//}
+
