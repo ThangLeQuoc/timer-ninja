@@ -68,13 +68,13 @@ Then you shall be able to continue without any problem.
 ### Declare dependency on timer-ninja
 **Gradle**  
 ```groovy
-implementation group: 'com.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
+implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
 ```
 
 **Maven**  
 ```xml
 <dependency>
-    <groupId>com.github.thanglequoc</groupId>
+    <groupId>io.github.thanglequoc</groupId>
     <artifactId>timer-ninja</artifactId>
     <version>1.1-SNAPSHOT</version>
     <scope>compile</scope>
@@ -96,8 +96,8 @@ plugins {
 dependencies {
     // ...
     // Timer ninja dependency
-    implementation group: 'com.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
-    aspect 'com.github.thanglequoc:timer-ninja:1.1-SNAPSHOT'
+    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
+    aspect 'io.github.thanglequoc:timer-ninja:1.1-SNAPSHOT'
 }
 ```
 
@@ -113,7 +113,7 @@ Example project's `pom.xml`
         <version>1.9.7</version>
     </dependency>
     <dependency>
-        <groupId>com.github.thanglequoc</groupId>
+        <groupId>io.github.thanglequoc</groupId>
         <artifactId>timer-ninja</artifactId>
         <version>1.1-SNAPSHOT</version>
         <scope>compile</scope>
@@ -134,7 +134,7 @@ Example project's `pom.xml`
                 <!-- Specify timer-ninja as the aspect library -->
                 <aspectLibraries>
                     <aspectLibrary>
-                        <groupId>com.github.thanglequoc</groupId>
+                        <groupId>io.github.thanglequoc</groupId>
                         <artifactId>timer-ninja</artifactId>
                     </aspectLibrary>
                 </aspectLibraries>
@@ -161,7 +161,7 @@ See this [Slf4j manual](https://slf4j.org/manual.html) for how to configure your
 
 **Note**: Spring Boot project uses Logback as it default log provider, so you don't need to do anything here.
 
-The logger class is `com.github.thanglequoc.timerninja.TimerNinjaUtil`, with the default log level is `INFO`.
+The logger class is `io.github.thanglequoc.timerninja.TimerNinjaUtil`, with the default log level is `INFO`.
 
 If logging framework is not your preference, and you just want to have a quick result. Then you can choose to fall back
 to the good old `System.out.println` output by executing this code **once** (since this is a singleton configuration instance). This setting will instruct
@@ -210,7 +210,7 @@ Any sequence execution of other annotated tracker methods inside the parent meth
 `Begin-end of trace context`: The detailed execution time of each method. The `|--` sign indicate the call to this method originated from the above parent method, which help to visualize the execution stacktrace.
 
 ## Troubleshooting
-If you need to troubleshoot, you can toggle the `DEBUG` log level on logger `com.github.thanglequoc.timerninja.TimerNinjaThreadContext`.
+If you need to troubleshoot, you can toggle the `DEBUG` log level on logger `io.github.thanglequoc.timerninja.TimerNinjaThreadContext`.
 
 ## Issue and contribution
 Any contribution is warmly welcome. Please feel free to open an Issue if you have any problem setting up timer-ninja. Or open a Pull Request
