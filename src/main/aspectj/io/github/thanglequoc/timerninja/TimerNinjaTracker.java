@@ -18,12 +18,14 @@ public @interface TimerNinjaTracker {
     /**
      * The time unit to use for the tracker.
      * Supported time units: second, millisecond (default), microsecond
+     * @return The time unit of the tracker
      * */
     ChronoUnit timeUnit() default ChronoUnit.MILLIS;
 
     /**
      * Determine if this tracker should be active
      * Set to false will disable this tracker from the overall tracking trace result
+     * @return boolean flag indicates if this tracker is active
      * */
     boolean enabled() default true;
 

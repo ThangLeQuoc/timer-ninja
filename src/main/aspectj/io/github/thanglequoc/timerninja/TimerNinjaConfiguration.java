@@ -13,6 +13,10 @@ public class TimerNinjaConfiguration {
         enabledSystemOutLog = false;
     }
 
+    /**
+     * Get the singleton configuration instance of Timer Ninja
+     * @return The singleton instance
+     * */
     public static TimerNinjaConfiguration getInstance() {
         if (instance == null) {
             instance = new TimerNinjaConfiguration();
@@ -33,6 +37,7 @@ public class TimerNinjaConfiguration {
 
     /**
      * Check if TimerNinja will also print the log trace to System.out in addition to the default logging using Slf4j
+     * @return flag indicates if System.out output is enabled
      * */
     public boolean isSystemOutLogEnabled() {
         return enabledSystemOutLog;

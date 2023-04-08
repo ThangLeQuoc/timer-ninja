@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
  * */
 public class TimerNinjaThreadContext {
 
+    /**
+     * The logger class, to be used as logger in the TimeTrackingAspect code
+     * */
     public static Logger LOGGER = LoggerFactory.getLogger(TimerNinjaThreadContext.class);
 
     private final String traceContextId;
@@ -34,6 +37,12 @@ public class TimerNinjaThreadContext {
      * */
     private Map<String, TrackerItemContext> itemContextMap;
 
+    /**
+     * Basic constructor of a TimerNinjaThreadContext, with the following default values scheme: <br/>
+     * - traceContextId: a random uuid
+     * - creationTime: current instant.now()
+     * - pointerDepth: root pointer, starts at 0
+     * */
     public TimerNinjaThreadContext() {
         traceContextId = UUID.randomUUID().toString();
         creationTime = Instant.now();
@@ -43,6 +52,7 @@ public class TimerNinjaThreadContext {
 
     /**
      * Get the current method pointer depth
+     * @return the current pointer depth. Root is 0, one nested level is +1
      * */
     public int getPointerDepth() {
         return pointerDepth;
@@ -50,6 +60,7 @@ public class TimerNinjaThreadContext {
 
     /**
      * Get the trace context id
+     * @return The random generated trace context id in UUID format
      * */
     public String getTraceContextId() {
         return traceContextId;
@@ -57,25 +68,40 @@ public class TimerNinjaThreadContext {
 
     /**
      * Get the tracking context creation time
+     * @return The creation time of the Timer Ninja thread context
      * */
     public Instant getCreationTime() {
         return creationTime;
     }
 
+    /**
+     * Increase the pointer depth by one level
+     * @return The increased pointer depth
+     * */
     public int increasePointerDepth() {
         return ++pointerDepth;
     }
 
+    /**
+     * Decrease the pointer depth by one level
+     * @return The decreased pointer depth
+     * */
     public int decreasePointerDepth() {
         return --pointerDepth;
     }
 
+    /**
+     * Get the current item context map. With the key is the tracker item context uuid, and value is the item itself
+     * @return The item context map
+     * */
     public Map<String, TrackerItemContext> getItemContextMap() {
         return itemContextMap;
     }
 
     /**
      * Add the tracking method to the item context map
+     * @param uuid The uuid of an item context
+     * @param trackerItemContext The tracker item context, represents a method invocation
      * */
     public void addItemContext(String uuid, TrackerItemContext trackerItemContext) {
         this.itemContextMap.put(uuid, trackerItemContext);

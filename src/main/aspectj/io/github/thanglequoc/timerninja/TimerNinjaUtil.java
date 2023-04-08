@@ -20,7 +20,16 @@ public class TimerNinjaUtil {
     private static Logger LOGGER = LoggerFactory.getLogger(TimerNinjaUtil.class);
 
     /**
+     * The timer ninja util is a util class with static method, so instance creation is not allowed on this util class
+     * */
+    private TimerNinjaUtil() {
+
+    }
+
+    /**
      * Determine if the TimerNinjaTracker is enabled on the method signature annotated with {@code @TimerNinjaTracker} annotation
+     * @param methodSignature The method signature
+     * @return boolean check if the timer ninja tracker is enabled for the provided method
      * */
     public static boolean isTimerNinjaTrackerEnabled(MethodSignature methodSignature) {
         if (methodSignature == null) {
@@ -33,6 +42,8 @@ public class TimerNinjaUtil {
 
     /**
      * Determine if the TimerNinjaTracker is enabled on the constructor signature annotated with {@code @TimerNinjaTracker} annotation
+     * @param constructorSignature The constructor signature
+     * @return boolean check if the timer ninja tracker is enabled for the provided constructor
      * */
     public static boolean isTimerNinjaTrackerEnabled(ConstructorSignature constructorSignature) {
         if (constructorSignature == null) {
@@ -44,6 +55,8 @@ public class TimerNinjaUtil {
 
     /**
      * Get the ChronoUnit setting of {@code @TimerNinjaTracker} annotation on method
+     * @param methodSignature The method signature being tracked
+     * @return Time unit of this tracker
      * */
     public static ChronoUnit getTrackingTimeUnit(MethodSignature methodSignature) {
         if (methodSignature == null) {
@@ -56,6 +69,8 @@ public class TimerNinjaUtil {
 
     /**
      * Get the ChronoUnit setting of {@code @TimerNinjaTracker} annotation on constructor
+     * @param constructorSignature The constructor signature being tracked
+     * @return Time unit of this tracker
      * */
     public static ChronoUnit getTrackingTimeUnit(ConstructorSignature constructorSignature) {
         if (constructorSignature == null) {
@@ -142,6 +157,8 @@ public class TimerNinjaUtil {
      * execution time. <br/>
      * The result is printed to the slf4j logger API. <br/>
      * Can be toggled to also print to System.out by setting the flag in {@code TimerNinjaConfiguration} class
+     *
+     * @param timerNinjaThreadContext The timerNinjaThreadContext to visualize the execution time trace
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
@@ -188,6 +205,8 @@ public class TimerNinjaUtil {
 
     /**
      * Generate the indent "|-- " with prefix empty space depends on the depth of the pointer of this tracker method
+     * @param pointerDepth The pointer depth of the method/constructor
+     * @return Pretty prefix "|--" with whitespaces depends on the depth of the pointer, for alignment purpose
      * */
     private static String generateIndent(int pointerDepth) {
         if (pointerDepth == 0) {
