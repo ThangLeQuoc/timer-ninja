@@ -74,8 +74,8 @@ publishing {
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
             credentials {
-                username = project.property('ossrhUsername')
-                password = project.property('ossrhPassword')
+                username = findProperty('ossrhUsername')
+                password = findProperty('ossrhPassword')
             }
             authentication {
                 basic(BasicAuthentication)
@@ -93,14 +93,3 @@ javadoc {
         options.addBooleanOption('html5', true)
     }
 }
-
-//task javadocJar(type: Jar) {
-//    archiveClassifier = 'javadoc'
-//    from javadoc
-//}
-//
-//task sourcesJar(type: Jar) {
-//    archiveClassifier = 'sources'
-//    from sourceSets.main.allSource
-//}
-
