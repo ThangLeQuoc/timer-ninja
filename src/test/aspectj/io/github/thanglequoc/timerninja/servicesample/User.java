@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja.servicesample;
+package io.github.thanglequoc.timerninja.servicesample;
 
 public class User {
 

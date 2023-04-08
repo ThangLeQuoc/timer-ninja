@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja;
+package io.github.thanglequoc.timerninja;
 
 /**
  * The singleton to store TimerNinja configuration

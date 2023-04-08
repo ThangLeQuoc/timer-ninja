@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja.extension;
+package io.github.thanglequoc.timerninja.extension;
 
 import java.util.List;
 import java.util.stream.Collectors;

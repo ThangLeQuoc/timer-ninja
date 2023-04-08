@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja;
+package io.github.thanglequoc.timerninja;
 
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -8,7 +8,7 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import static com.github.thanglequoc.timerninja.TimerNinjaThreadContext.LOGGER;
+import static io.github.thanglequoc.timerninja.TimerNinjaThreadContext.LOGGER;
 
 /**
  * TimeTracking aspect definition
@@ -20,8 +20,8 @@ public aspect TimeTrackingAspect {
     /**
      * Point cut is any method, or constructor annotated with @TimerNinjaTracker
      * */
-    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@com.github.thanglequoc.timerninja.TimerNinjaTracker * * (..));
-    pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@com.github.thanglequoc.timerninja.TimerNinjaTracker *.new(..));
+    pointcut methodAnnotatedWithTimerNinjaTracker(): execution(@io.github.thanglequoc.timerninja.TimerNinjaTracker * * (..));
+    pointcut constructorAnnotatedWithTimerNinjaTracker(): execution(@io.github.thanglequoc.timerninja.TimerNinjaTracker *.new(..));
 
     /**
      * Around advice for method that is annotated with {@code @TimerNinjaTracker} annotation

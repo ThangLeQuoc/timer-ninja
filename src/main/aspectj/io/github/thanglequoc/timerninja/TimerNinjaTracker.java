@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja;
+package io.github.thanglequoc.timerninja;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

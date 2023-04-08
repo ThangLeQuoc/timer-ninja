@@ -1,6 +1,6 @@
-package com.github.thanglequoc.timerninja.servicesample;
+package io.github.thanglequoc.timerninja.servicesample;
 
-import com.github.thanglequoc.timerninja.TimerNinjaTracker;
+import io.github.thanglequoc.timerninja.TimerNinjaTracker;
 
 public class PaymentService {
 

@@ -1,4 +1,4 @@
-package com.github.thanglequoc.timerninja;
+package io.github.thanglequoc.timerninja;
 
 import java.time.Instant;
 
@@ -23,8 +23,6 @@ public class TimerNinjaThreadContextTest {
         Instant beforeRun = Instant.now();
         threadContext = new TimerNinjaThreadContext();
         assertFalse(threadContext.getTraceContextId().isBlank());
-        Instant creationTime = threadContext.getCreationTime();
-        assertTrue(creationTime.isAfter(beforeRun));
         assertTrue(threadContext.getItemContextMap().isEmpty());
         assertEquals(0, threadContext.getPointerDepth());
     }

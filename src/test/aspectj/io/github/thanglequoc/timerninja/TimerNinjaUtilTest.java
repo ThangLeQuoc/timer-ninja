@@ -1,9 +1,9 @@
-package com.github.thanglequoc.timerninja;
+package io.github.thanglequoc.timerninja;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import com.github.thanglequoc.timerninja.extension.LogCaptureExtension;
+import io.github.thanglequoc.timerninja.extension.LogCaptureExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 

@@ -1,11 +1,11 @@
-package com.github.thanglequoc.timerninja;
+package io.github.thanglequoc.timerninja;
 
 import java.util.List;
 
-import com.github.thanglequoc.timerninja.extension.LogCaptureExtension;
-import com.github.thanglequoc.timerninja.servicesample.BankService;
-import com.github.thanglequoc.timerninja.servicesample.constructorscenario.LocationService;
-import com.github.thanglequoc.timerninja.servicesample.constructorscenario.TransportationService;
+import io.github.thanglequoc.timerninja.extension.LogCaptureExtension;
+import io.github.thanglequoc.timerninja.servicesample.BankService;
+import io.github.thanglequoc.timerninja.servicesample.constructorscenario.LocationService;
+import io.github.thanglequoc.timerninja.servicesample.constructorscenario.TransportationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
