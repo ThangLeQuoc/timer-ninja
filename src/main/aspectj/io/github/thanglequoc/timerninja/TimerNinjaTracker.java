@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 import java.time.temporal.ChronoUnit;
 
 /**
- * Annotate any Java method with this annotation to track the total execution time of the method. <br/>
+ * Annotate any Java method with this annotation to track the total execution time of the method. <br>
  * This annotation also supports nested tracking. If the annotated method is invoked from a parent method that is also annotated with
  * {@code @TimerNinjaTracker}, then the execution time of the method will be added to the existing tracking context.
  */

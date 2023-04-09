@@ -25,8 +25,8 @@ public class TimerNinjaConfiguration {
     }
 
     /**
-     * By default, TimerNinja prints the result with Slf4 logging API.<br/>
-     * This option is for consumer that doesn't use any java logger provider.<br/>
+     * By default, TimerNinja prints the result with Slf4 logging API.<br>
+     * This option is for consumer that doesn't use any java logger provider.<br>
      * Toggles the option to print timing trace results to System.out print stream in addition to the default logging using Slf4j.
      *
      * @param enabledSystemOutLogging true to enable printing to System.out, false otherwise.

@@ -26,7 +26,7 @@ public class TimerNinjaThreadContext {
     private final Instant creationTime;
 
     /**
-     * The current pointer depth of the timer tracking context.<br/>
+     * The current pointer depth of the timer tracking context.<br>
      * This depth increases for each nested annotated tracker method that is called within the current
      * method being evaluated.
      */
@@ -38,7 +38,7 @@ public class TimerNinjaThreadContext {
     private Map<String, TrackerItemContext> itemContextMap;
 
     /**
-     * Basic constructor of a TimerNinjaThreadContext, with the following default values scheme: <br/>
+     * Basic constructor of a TimerNinjaThreadContext, with the following default values scheme: <br>
      * - traceContextId: a random uuid
      * - creationTime: current instant.now()
      * - pointerDepth: root pointer, starts at 0

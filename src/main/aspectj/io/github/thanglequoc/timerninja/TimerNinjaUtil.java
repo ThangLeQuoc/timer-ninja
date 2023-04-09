@@ -85,7 +85,7 @@ public class TimerNinjaUtil {
      * Pretty get the method signature, output include method modifier, name, and parameter name
      *
      * @param methodSignature The method signature
-     * @return The full method name, include method modifier, name, and parameters <br/>
+     * @return The full method name, include method modifier, name, and parameters <br>
      * E.g: "public static String prettyGetMethodSignature(MethodSignature methodSignature)"
      * */
     public static String prettyGetMethodSignature(MethodSignature methodSignature) {
@@ -121,7 +121,7 @@ public class TimerNinjaUtil {
      * Pretty get the method signature, output include method modifier, name, and parameter name
      *
      * @param constructorSignature The constructor signature
-     * @return The full method name, include method modifier, name, and parameters <br/>
+     * @return The full method name, include method modifier, name, and parameters <br>
      * E.g: "public TrackerItemContext(String abc)"
      * */
     public static String prettyGetConstructorSignature(ConstructorSignature constructorSignature) {
@@ -152,10 +152,10 @@ public class TimerNinjaUtil {
     }
 
     /**
-     * Print the time tracking execution trace. <br/>
+     * Print the time tracking execution trace. <br>
      * The output include the timer ninja trace context id, creation date of the tracking context, and the detailed
-     * execution time. <br/>
-     * The result is printed to the slf4j logger API. <br/>
+     * execution time. <br>
+     * The result is printed to the slf4j logger API. <br>
      * Can be toggled to also print to System.out by setting the flag in {@code TimerNinjaConfiguration} class
      *
      * @param timerNinjaThreadContext The timerNinjaThreadContext to visualize the execution time trace
@@ -177,7 +177,7 @@ public class TimerNinjaUtil {
         if (isSystemOutLogEnabled) {
             System.out.printf("Timer Ninja trace context id: %s%n", traceContextId);
             System.out.printf("Trace timestamp: %s%n", utcTimeString);
-            if (isSystemOutLogEnabled) {
+            if (timerNinjaThreadContext.getItemContextMap().isEmpty()) {
                 System.out.println("There isn't any tracker enabled in the tracking context");
                 return;
             } else {
@@ -261,7 +261,7 @@ public class TimerNinjaUtil {
     /**
      * Convert instance to UTC timestamp string
      * @param instant The time instant
-     * @return Time string in UTC zone with pattern yyyy-MM-dd'T'HH:mm:ss.SSS'Z'<br/>
+     * @return Time string in UTC zone with pattern yyyy-MM-dd'T'HH:mm:ss.SSS'Z'<br>
      * E.g: 2023-03-27T11:24:46.948Z
      * */
     private static String toUTCTimestampString(Instant instant) {
