@@ -83,8 +83,8 @@ plugins {
 dependencies {
     // ...
     // Timer ninja dependency
-    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.1-SNAPSHOT'
-    aspect 'io.github.thanglequoc:timer-ninja:1.1-SNAPSHOT'
+    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.0'
+    aspect 'io.github.thanglequoc:timer-ninja:1.0.0'
 }
 ```
 
@@ -102,7 +102,7 @@ Example project's `pom.xml`
     <dependency>
         <groupId>io.github.thanglequoc</groupId>
         <artifactId>timer-ninja</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.0.0</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
