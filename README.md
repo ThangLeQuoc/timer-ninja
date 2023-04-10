@@ -55,7 +55,7 @@ the aspect defined in `timer-ninja` dependency
 ### Declare dependency on timer-ninja
 **Gradle**  
 ```groovy
-implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.0'
+implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.1'
 ```
 
 **Maven**  
@@ -63,7 +63,7 @@ implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.
 <dependency>
     <groupId>io.github.thanglequoc</groupId>
     <artifactId>timer-ninja</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -83,8 +83,8 @@ plugins {
 dependencies {
     // ...
     // Timer ninja dependency
-    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.0'
-    aspect 'io.github.thanglequoc:timer-ninja:1.0.0'
+    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.1'
+    aspect 'io.github.thanglequoc:timer-ninja:1.0.1'
 }
 ```
 
@@ -102,7 +102,7 @@ Example project's `pom.xml`
     <dependency>
         <groupId>io.github.thanglequoc</groupId>
         <artifactId>timer-ninja</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
