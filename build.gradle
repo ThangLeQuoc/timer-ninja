@@ -1,12 +1,13 @@
 plugins {
     id 'java-library'
-    id "io.freefair.aspectj" version '6.6.3'
+    id 'application'
     id 'maven-publish'
-    id 'signing'
+    id "io.freefair.aspectj" version '6.6.3'
+    id 'org.jreleaser' version '1.16.0'
 }
 
 group 'io.github.thanglequoc'
-version '1.0.1'
+version '1.0.2'
 
 java {
     withJavadocJar()
@@ -65,26 +66,55 @@ publishing {
         }
     }
     repositories {
-        mavenLocal()
         maven {
-            name = 'sonartype'
-            def releasesRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-            def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
-            credentials {
-                username = findProperty('ossrhUsername')
-                password = findProperty('ossrhPassword')
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
+            url = layout.buildDirectory.dir('staging-deploy')
         }
+        mavenLocal()
     }
 }
 
-signing {
-    sign publishing.publications.mavenJava
+jreleaser {
+    project {
+        name = 'timer-ninja'
+        authors = ['ThangLeQuoc']
+        maintainers = ['ThangLeQuoc']
+        license = 'Apache-2.0'
+        links {
+            homepage = 'https://github.com/ThangLeQuoc/timer-ninja'
+        }
+        description = 'A handy Java utility to help you measure execution time of Java code'
+        longDescription = 'Timer Ninja is a brainless Java library to evaluate your Java code method execution time. Timer Ninja follows the Aspect Oriented Programming (AOP) concept, backed by AspectJ, to make it super simple to declare tracker on method.'
+    }
+
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    username = 'changeit'
+                    password = 'changeit'
+                    authorization = 'BEARER'
+                    sign = true
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+        }
+    }
+
+    signing {
+        active = 'RELEASE'
+        armored = true
+        mode = 'FILE'
+        files = true
+        artifacts = true
+        checksums = true
+
+        passphrase = 'changeit'
+        publicKey = './public_key.asc'
+        secretKey = './secret_key.asc'
+
+    }
 }
 
 javadoc {
