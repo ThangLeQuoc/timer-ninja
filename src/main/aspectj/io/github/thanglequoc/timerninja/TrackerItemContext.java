@@ -19,6 +19,11 @@ public class TrackerItemContext {
     private String methodName;
 
     /**
+     * Argument information
+     * */
+    private String argumentInformation;
+
+    /**
      * Total execution time of this method
      * */
     private long executionTime;
@@ -86,8 +91,23 @@ public class TrackerItemContext {
         return methodName;
     }
 
+    /**
+     * Set the arguments information
+     * */
+    public void setArgumentInformation(String argumentInformation) {
+        this.argumentInformation = argumentInformation;
+    }
+
+    /**
+     * Get the tracker item context argument information
+     * @return argument detail
+     * */
+    public String getArgumentInformation() {
+        return argumentInformation;
+    }
+
     @Override
     public String toString() {
-        return "TrackerItemContext{" + "pointerDepth=" + pointerDepth + ", methodName='" + methodName + '\'' + ", executionTime=" + executionTime + ", timeUnit=" + timeUnit + '}';
+        return "TrackerItemContext{" + "pointerDepth=" + pointerDepth + ", methodName='" + methodName + '\'' + ", executionTime=" + executionTime + ", timeUnit=" + timeUnit + ", args=[" + argumentInformation + "]" + '}';
     }
 }
