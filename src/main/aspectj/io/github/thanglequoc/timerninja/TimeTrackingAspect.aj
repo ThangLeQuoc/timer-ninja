@@ -3,10 +3,12 @@ package io.github.thanglequoc.timerninja;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.aspectj.lang.reflect.CodeSignature;
 
 import static io.github.thanglequoc.timerninja.TimerNinjaThreadContext.LOGGER;
 
@@ -40,7 +42,10 @@ public aspect TimeTrackingAspect {
         boolean isTrackerEnabled = TimerNinjaUtil.isTimerNinjaTrackerEnabled(methodSignature);
 
         String methodSignatureString = TimerNinjaUtil.prettyGetMethodSignature(methodSignature);
-        TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), methodSignatureString);
+        String methodArgumentString = TimerNinjaUtil.prettyGetArguments(thisJoinPoint);
+        boolean isIncludeArgsInLog = TimerNinjaUtil.isArgsIncluded(methodSignature);
+
+        TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), methodSignatureString, methodArgumentString, isIncludeArgsInLog);
         String uuid = UUID.randomUUID().toString();
 
         Thread currentThread = Thread.currentThread();
@@ -48,8 +53,8 @@ public aspect TimeTrackingAspect {
         long threadId = currentThread.getId();
 
         if (isTrackerEnabled) {
-            LOGGER.debug("{} ({})|{}| TrackerItemContext {} initiated, start tracking on: {}",
-                threadName, threadId, traceContextId, uuid, methodSignatureString);
+            LOGGER.debug("{} ({})|{}| TrackerItemContext {} initiated, start tracking on: {} - {}",
+                threadName, threadId, traceContextId, uuid, methodSignatureString, methodArgumentString);
             trackingCtx.addItemContext(uuid, trackerItemContext);
             trackingCtx.increasePointerDepth();
         }
@@ -60,8 +65,8 @@ public aspect TimeTrackingAspect {
         long endTime = System.currentTimeMillis();
 
         if (isTrackerEnabled) {
-            LOGGER.debug("{} ({})|{}| TrackerItemContext {} finished tracking on: {}. Evaluating execution time...",
-                threadName, threadId, traceContextId, uuid, methodSignatureString);
+            LOGGER.debug("{} ({})|{}| TrackerItemContext {} finished tracking on: {} - {}. Evaluating execution time...",
+                threadName, threadId, traceContextId, uuid, methodSignatureString, methodArgumentString);
             ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(methodSignature);
             trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
             trackerItemContext.setTimeUnit(trackingTimeUnit);

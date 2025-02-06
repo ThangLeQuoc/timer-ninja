@@ -19,9 +19,10 @@ public class TrackerItemContext {
     private String methodName;
 
     /**
-     * Argument information
+     * Arguments passed to the method
      * */
-    private String argumentInformation;
+    private String arguments;
+    private boolean includeArgs = false;
 
     /**
      * Total execution time of this method
@@ -41,6 +42,19 @@ public class TrackerItemContext {
     TrackerItemContext(int pointerDepth, String methodName) {
         this.pointerDepth = pointerDepth;
         this.methodName = methodName;
+    }
+
+    /**
+     * Constructor of tracker item context
+     * @param pointerDepth The pointer depth of this item
+     * @param methodName The method name of this item
+     * @param arguments The argument information of this item
+     * */
+    TrackerItemContext(int pointerDepth, String methodName, String arguments, boolean includeArgs) {
+        this.pointerDepth = pointerDepth;
+        this.methodName = methodName;
+        this.arguments = arguments;
+        this.includeArgs = includeArgs;
     }
 
     /**
@@ -94,20 +108,24 @@ public class TrackerItemContext {
     /**
      * Set the arguments information
      * */
-    public void setArgumentInformation(String argumentInformation) {
-        this.argumentInformation = argumentInformation;
+    public void setArguments(String arguments) {
+        this.arguments = arguments;
     }
 
     /**
      * Get the tracker item context argument information
      * @return argument detail
      * */
-    public String getArgumentInformation() {
-        return argumentInformation;
+    public String getArguments() {
+        return arguments;
+    }
+
+    public boolean isIncludeArgs() {
+        return includeArgs;
     }
 
     @Override
     public String toString() {
-        return "TrackerItemContext{" + "pointerDepth=" + pointerDepth + ", methodName='" + methodName + '\'' + ", executionTime=" + executionTime + ", timeUnit=" + timeUnit + ", args=[" + argumentInformation + "]" + '}';
+        return "TrackerItemContext{" + "pointerDepth=" + pointerDepth + ", methodName='" + methodName + '\'' + ", executionTime=" + executionTime + ", timeUnit=" + timeUnit + ", args=[" + arguments + "]" + '}';
     }
 }
