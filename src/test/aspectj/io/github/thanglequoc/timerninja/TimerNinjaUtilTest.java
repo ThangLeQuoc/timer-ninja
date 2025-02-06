@@ -111,8 +111,31 @@ public class TimerNinjaUtilTest {
         assertFalse(TimerNinjaUtil.isArgsIncluded(constructorSgnt));
     }
 
-    
+    @Test
+    public void testGetTrackingTimeUnit_MethodSignature() {
+        MethodSignature mockMethodSgnt = mock(MethodSignature.class);
+        Method mockMethod = mock(Method.class);
+        when(mockMethodSgnt.getMethod()).thenReturn(mockMethod);
+        TimerNinjaTracker mockTracker = mock(TimerNinjaTracker.class);
 
+        when(mockTracker.timeUnit()).thenReturn(ChronoUnit.MILLIS);
+        when(mockMethod.getAnnotation(TimerNinjaTracker.class)).thenReturn(mockTracker);
+        assertEquals(ChronoUnit.MILLIS, TimerNinjaUtil.getTrackingTimeUnit(mockMethodSgnt));
+    }
+
+    @Test
+    public void testGetTrackingTimeUnit_ConstructorSignature() {
+        ConstructorSignature constructorSgnt = mock(ConstructorSignature.class);
+        Constructor mockConstructor = mock(Constructor.class);
+        when(constructorSgnt.getConstructor()).thenReturn(mockConstructor);
+
+        TimerNinjaTracker mockTracker = mock(TimerNinjaTracker.class);
+        when(mockTracker.timeUnit()).thenReturn(ChronoUnit.MICROS);
+        when(mockConstructor.getAnnotation(TimerNinjaTracker.class)).thenReturn(mockTracker);
+
+        assertEquals(ChronoUnit.MICROS, TimerNinjaUtil.getTrackingTimeUnit(constructorSgnt));
+    }
+    
 
 
 
