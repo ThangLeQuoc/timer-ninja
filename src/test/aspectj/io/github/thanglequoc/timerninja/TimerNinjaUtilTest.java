@@ -74,6 +74,45 @@ public class TimerNinjaUtilTest {
         assertFalse(TimerNinjaUtil.isTimerNinjaTrackerEnabled(constructorSgnt));
     }
 
+    @Test
+    public void testIsArgsIncluded_MethodSignature() {
+        MethodSignature mockMethodSgnt = mock(MethodSignature.class);
+        Method mockMethod = mock(Method.class);
+        when(mockMethodSgnt.getMethod()).thenReturn(mockMethod);
+        TimerNinjaTracker mockTracker = mock(TimerNinjaTracker.class);
+
+        // when includeArgs is enabled
+        when(mockTracker.includeArgs()).thenReturn(true);
+        when(mockMethod.getAnnotation(TimerNinjaTracker.class)).thenReturn(mockTracker);
+        assertTrue(TimerNinjaUtil.isArgsIncluded(mockMethodSgnt));
+
+        // when includeArgs is disabled
+        when(mockTracker.includeArgs()).thenReturn(false);
+        when(mockMethod.getAnnotation(TimerNinjaTracker.class)).thenReturn(mockTracker);
+        assertFalse(TimerNinjaUtil.isArgsIncluded(mockMethodSgnt));
+    }
+
+    @Test
+    public void testIsArgsIncluded_ConstructorSignature() {
+        ConstructorSignature constructorSgnt = mock(ConstructorSignature.class);
+        Constructor mockConstructor = mock(Constructor.class);
+        when(constructorSgnt.getConstructor()).thenReturn(mockConstructor);
+
+        TimerNinjaTracker mockTracker = mock(TimerNinjaTracker.class);
+
+        // when the tracker is enabled
+        when(mockTracker.includeArgs()).thenReturn(true);
+        when(mockConstructor.getAnnotation(TimerNinjaTracker.class)).thenReturn(mockTracker);
+        assertTrue(TimerNinjaUtil.isArgsIncluded(constructorSgnt));
+
+        // when the tracker is disabled
+        when(mockTracker.includeArgs()).thenReturn(false);
+        when(mockConstructor.getAnnotation(TimerNinjaTracker.class)).thenReturn(mockTracker);
+        assertFalse(TimerNinjaUtil.isArgsIncluded(constructorSgnt));
+    }
+
+    
+
 
 
 
