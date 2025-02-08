@@ -1,5 +1,7 @@
 package io.github.thanglequoc.timerninja;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
@@ -51,6 +53,28 @@ public class TimerNinjaUtil {
         }
         TimerNinjaTracker annotation = (TimerNinjaTracker) constructorSignature.getConstructor().getAnnotation(TimerNinjaTracker.class);
         return annotation.enabled();
+    }
+
+    /**
+     * Determine if the method annotated with TimerNinjaTracker has the args information turn on
+     * */
+    public static boolean isArgsIncluded(ConstructorSignature constructorSignature) {
+        if (constructorSignature == null) {
+            throw new IllegalArgumentException("ConstructorSignature must be present");
+        }
+        TimerNinjaTracker annotation = (TimerNinjaTracker) constructorSignature.getConstructor().getAnnotation(TimerNinjaTracker.class);
+        return annotation.includeArgs();
+    }
+
+    /**
+     * Determine if the method annotated with TimerNinjaTracker has the args information turn on
+     * */
+    public static boolean isArgsIncluded(MethodSignature methodSignature) {
+        if (methodSignature == null) {
+            throw new IllegalArgumentException("MethodSignature must be present");
+        }
+        TimerNinjaTracker annotation = methodSignature.getMethod().getAnnotation(TimerNinjaTracker.class);
+        return annotation.includeArgs();
     }
 
     /**
@@ -152,6 +176,26 @@ public class TimerNinjaUtil {
     }
 
     /**
+     * Pretty get the argument information from the join point. <br>
+     * Example output: user={name='John Doe', age=30}, amount={500}
+     * */
+    public static String prettyGetArguments(JoinPoint joinPoint) {
+        StringBuilder sb = new StringBuilder();
+        Object[] args = joinPoint.getArgs();
+        String[] names = ((CodeSignature)joinPoint.getSignature()).getParameterNames();
+        for (int i = 0; i < args.length; i++) {
+            sb.append(names[i]);
+            sb.append("={");
+            sb.append(args[i]);
+            sb.append("}");
+            if (i != args.length - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
      * Print the time tracking execution trace. <br>
      * The output include the timer ninja trace context id, creation date of the tracking context, and the detailed
      * execution time. <br>
@@ -162,44 +206,41 @@ public class TimerNinjaUtil {
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
-        boolean isSystemOutLogEnabled = TimerNinjaConfiguration.getInstance().isSystemOutLogEnabled();
-
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
-        LOGGER.info("Timer Ninja trace context id: {}", traceContextId);
-        LOGGER.info("Trace timestamp: {}", utcTimeString);
+
+        logMessage("Timer Ninja trace context id: {}", traceContextId);
+        logMessage("Trace timestamp: {}", utcTimeString);
 
         if (timerNinjaThreadContext.getItemContextMap().isEmpty()) {
-            LOGGER.warn("There isn't any tracker enabled in the tracking context");
+            logMessage("There isn't any tracker enabled in the tracking context");
+            return;
         }
 
-        LOGGER.info("{===== Start of trace context id: {} =====}", traceContextId);
+        logMessage("{===== Start of trace context id: {} =====}", traceContextId);
 
-        if (isSystemOutLogEnabled) {
-            System.out.printf("Timer Ninja trace context id: %s%n", traceContextId);
-            System.out.printf("Trace timestamp: %s%n", utcTimeString);
-            if (timerNinjaThreadContext.getItemContextMap().isEmpty()) {
-                System.out.println("There isn't any tracker enabled in the tracking context");
-                return;
-            } else {
-                System.out.printf("{===== Start of trace context id: %s =====}%n", traceContextId);
-            }
-        }
-
-        timerNinjaThreadContext.getItemContextMap().values().stream().forEach(item-> {
+        timerNinjaThreadContext.getItemContextMap().values().forEach(item-> {
             String indent = generateIndent(item.getPointerDepth());
             String methodName = item.getMethodName();
             long executionTime = item.getExecutionTime();
             String timeUnit = getPresentationUnit(item.getTimeUnit());
+            String args = item.getArguments();
 
-            LOGGER.info("{}{} - {} {}", indent, methodName, executionTime, timeUnit);
-            if (isSystemOutLogEnabled) {
-                System.out.printf("%s%s - %d %s%n",indent, methodName, executionTime, timeUnit);
+            if (item.isIncludeArgs()) {
+                logMessage("{}{} - Args: [{}] - {} {}", indent, methodName, args, executionTime, timeUnit);
+            } else {
+                logMessage("{}{} - {} {}", indent, methodName, executionTime, timeUnit);
             }
         });
+        logMessage("{====== End of trace context id: {} ======}", traceContextId);
+    }
 
-        LOGGER.info("{====== End of trace context id: {} ======}", traceContextId);
-        if (isSystemOutLogEnabled) {
-            System.out.printf("{====== End of trace context id: %s ======}%n", traceContextId);
+    /**
+     * Supportive method to log message to LOGGER slf4j, or System output (if enabled)
+     * */
+    private static void logMessage(String format, Object... args) {
+        LOGGER.info(format, args);
+        if (TimerNinjaConfiguration.getInstance().isSystemOutLogEnabled()) {
+            System.out.printf(format.replace("{}", "%s") + "%n", args);
         }
     }
 

@@ -29,4 +29,9 @@ public @interface TimerNinjaTracker {
      * */
     boolean enabled() default true;
 
+    /**
+     * Determine if this tracker should also include the argument information passed to the method being tracked
+     * Default is false
+     * */
+    boolean includeArgs() default false;
 }
