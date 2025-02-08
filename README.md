@@ -1,16 +1,15 @@
 ![TimerNinjaBanner](https://i.imgur.com/dOdfZmV.png)
 # Timer Ninja
-Timer Ninja is a brainless Java library to evaluate your Java code method execution time.
-Timer Ninja follows the Aspect Oriented Programming (AOP) concept, backed by AspectJ, to make it super simple
-to declare tracker on method.
+
+Timer Ninja is a lightweight Java library for measuring method execution time with ease. It provides annotation-based tracking to measure execution time, supports different time units, and visualizes the tracking context in stacktrace tree format.  
+Built on Aspect-Oriented Programming (AOP) with AspectJ, this library seamlessly integrates into your application for precise performance troubleshooting.
 
 ## Problem Space
-Measuring the method execution time is a super common thing in the programmer world.
+Measuring code execution time is a fundamental practice in software development. Whether optimizing performance, debugging slow processes, or ensuring system efficiency, developers frequently need insights into how long the methods take to execute.
 
 ### Traditional approach
-The traditional approach is to get the different between two timestamp points before and after the method is executed.
-This approach is obviously fast and easy, but will soon become messy because you will need to manually declare 2 timestamp points
-around every method that need to be evaluated. This introduces a lot of boilerplate code in the code base.
+A common way to measure method execution time is by capturing timestamps before and after the method runs and calculating the difference.  
+This approach is straightforward and fast but quickly becomes cumbersome. You must manually declare two timestamp points around every method that needs evaluation, leading to excessive boilerplate code and reduced maintainability. As the codebase grows, keeping track of these measurements becomes inefficient and error-prone.
 
 ```java
 long beforeExecution = System.currentTimeMillis();
@@ -38,9 +37,9 @@ Timer Ninja also keeps track of method execution context. If your annotated meth
 Timer Ninja trace context id: 851ac23b-2669-4883-8c97-032b8fd2d45c
 Trace timestamp: 2023-04-03T07:16:48.491Z
 {===== Start of trace context id: 851ac23b-2669-4883-8c97-032b8fd2d45c =====}
-public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount) - 1747 ms
+public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount) - Args: [sourceUserId={1}, targetUserId={2}, amount={500}] - 1747 ms
    |-- public User findUser(int userId) - 105000 µs
-   |-- public void processPayment(User user, int amount) - 770 ms
+   |-- public void processPayment(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 770 ms
      |-- public boolean changeAmount(User user, int amount) - 306 ms
      |-- public void notify(User user) - 258 ms
        |-- private void notifyViaSMS(User user) - 53 ms
@@ -55,7 +54,7 @@ the aspect defined in `timer-ninja` dependency
 ### Declare dependency on timer-ninja
 **Gradle**  
 ```groovy
-implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.1'
+implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.3'
 ```
 
 **Maven**  
@@ -63,7 +62,7 @@ implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.
 <dependency>
     <groupId>io.github.thanglequoc</groupId>
     <artifactId>timer-ninja</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -83,8 +82,8 @@ plugins {
 dependencies {
     // ...
     // Timer ninja dependency
-    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.1'
-    aspect 'io.github.thanglequoc:timer-ninja:1.0.1'
+    implementation group: 'io.github.thanglequoc', name: 'timer-ninja', version: '1.0.3'
+    aspect 'io.github.thanglequoc:timer-ninja:1.0.3'
 }
 ```
 
@@ -102,7 +101,7 @@ Example project's `pom.xml`
     <dependency>
         <groupId>io.github.thanglequoc</groupId>
         <artifactId>timer-ninja</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.3</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -164,20 +163,54 @@ that you want to measure
 
 ```java
 @TimerNinjaTracker
-public String placeOrder(Order order) {
-     
+public void processPayment(User user, int amount) {
+    // Method logic
 }
 ```
 
-By default, the time unit of the tracker is **millisecond (ms)**. You can freely choose other timeunit with the parameter within the annotation
+### Tracker Options
+
+The following options is available on the `@TimerNinjaTracker` annotation
+
+```java
+@TimerNinjaTracker(enabled = true, timeUnit = ChronoUnit.MILLIS, includeArgs = true)
+public void processPayment(User user, int amount) {
+    (...)
+}
+```
+#### Toggle tracking
+Determine if this tracker should be active. Set to `false` will disable this tracker from the overall tracking trace result. Default: `true`
+> @TimerNinjaTracker(enabled = false)
+
+#### Timing Unit
+The tracker allows specifying the time unit for measurement. Supported units include:  
+•   Seconds (`ChronoUnit.SECONDS`)  
+•   Milliseconds (`ChronoUnit.MILLIS`)  
+•   Microseconds (`ChronoUnit.MICROS`)  
+By default, the time unit of the tracker is **millisecond (ms)**.
 ```java
 import java.time.temporal.ChronoUnit;
 
 @TimerNinjaTracker(timeUnit = ChronoUnit.MICROS)
-public String placeOrder(Order order) {
+public void processPayment(User user, int amount) {
 
 }
 ```
+
+#### Include argument information in the log trace context
+The tracker can optionally log the arguments passed to the tracked method. This is particularly useful for gaining insights into the input data when analyzing performance. Default: `false`
+
+**Note**: Ensure that the `toString()` method of the argument objects is properly implemented to display meaningful details in the logs.
+
+```java
+@TimerNinjaTracker(includeArgs = true)
+public void processPayment(User user, int amount) {
+    // Method logic
+}
+```
+
+**Sample output:**
+> public void processPayment(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 770 ms
 
 ### Reading the time trace output
 Once the method is executed, you should be able to find the result similar to this one in the output/log
