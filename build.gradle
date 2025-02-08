@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'io.github.thanglequoc'
-version '1.0.3-SNAPSHOT'
+version '1.0.3'
 
 java {
     withJavadocJar()
@@ -47,7 +47,7 @@ publishing {
 
             pom {
                 name = 'Timer Ninja'
-                description = 'A handy Java utility to help you evaluate the total execution time of your Java method'
+                description = 'Timer Ninja is a lightweight Java library for measuring method execution time with ease. It provides annotation-based tracking and a flexible API to measure execution time, supports different time units, and visualizes the tracking context in stacktrace tree format.'
                 url = 'https://github.com/ThangLeQuoc/timer-ninja'
                 licenses {
                     license {
