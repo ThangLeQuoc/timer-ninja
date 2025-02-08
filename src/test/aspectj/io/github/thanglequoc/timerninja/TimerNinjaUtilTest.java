@@ -135,7 +135,7 @@ public class TimerNinjaUtilTest {
 
         assertEquals(ChronoUnit.MICROS, TimerNinjaUtil.getTrackingTimeUnit(constructorSgnt));
     }
-    
+
 
 
 
@@ -188,7 +188,7 @@ public class TimerNinjaUtilTest {
         );
         assertEquals("public void processPayment(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 500 ms", loggingMessages.get(3));
         assertEquals("  |-- public boolean deductAmount(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 100 ms", loggingMessages.get(4));
-        assertEquals("  |-- public void notify(User user) - 150 ms", loggingMessages.get(5));
+        assertEquals("  |-- public void notify(User user) - 150 µs", loggingMessages.get(5));
         assertEquals(
             String.format("{====== End of trace context id: %s ======}", traceContextId),
             loggingMessages.get(6)
@@ -262,7 +262,7 @@ public class TimerNinjaUtilTest {
         deductItem.setExecutionTime(100);
 
         TrackerItemContext notifyTracker = new TrackerItemContext(1, "public void notify(User user)", "user={name='Mary Jane', email=mary@gmail.com}", false);
-        notifyTracker.setTimeUnit(ChronoUnit.MILLIS);
+        notifyTracker.setTimeUnit(ChronoUnit.MICROS);
         notifyTracker.setExecutionTime(150);
 
         threadContext.addItemContext("123-bbb-dd", processPaymentItem);

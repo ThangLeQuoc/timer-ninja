@@ -7,11 +7,13 @@ plugins {
 }
 
 group 'io.github.thanglequoc'
-version '1.0.2'
+version '1.0.3-SNAPSHOT'
 
 java {
     withJavadocJar()
     withSourcesJar()
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
 }
 
 repositories {

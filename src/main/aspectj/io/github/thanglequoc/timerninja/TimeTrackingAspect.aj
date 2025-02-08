@@ -100,7 +100,10 @@ public aspect TimeTrackingAspect {
         boolean isTrackerEnabled = TimerNinjaUtil.isTimerNinjaTrackerEnabled(constructorSignature);
 
         String constructorSignatureString = TimerNinjaUtil.prettyGetConstructorSignature(constructorSignature);
-        TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), constructorSignatureString);
+        String constructorArgumentString = TimerNinjaUtil.prettyGetArguments(thisJoinPoint);
+        boolean isIncludeArgsInLog = TimerNinjaUtil.isArgsIncluded(constructorSignature);
+
+        TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), constructorSignatureString, constructorArgumentString, isIncludeArgsInLog);
         String uuid = UUID.randomUUID().toString();
 
         Thread currentThread = Thread.currentThread();
@@ -108,8 +111,8 @@ public aspect TimeTrackingAspect {
         long threadId = currentThread.getId();
 
         if (isTrackerEnabled) {
-            LOGGER.debug("{} ({})|{}| TrackerItemContext {} initiated, start tracking on constructor: {}",
-                threadName, threadId, traceContextId, uuid, constructorSignatureString);
+            LOGGER.debug("{} ({})|{}| TrackerItemContext {} initiated, start tracking on constructor: {} - {}",
+                threadName, threadId, traceContextId, uuid, constructorSignatureString, constructorArgumentString);
             trackingCtx.addItemContext(uuid, trackerItemContext);
             trackingCtx.increasePointerDepth();
         }
@@ -120,8 +123,8 @@ public aspect TimeTrackingAspect {
         long endTime = System.currentTimeMillis();
 
         if (isTrackerEnabled) {
-            LOGGER.debug("{} ({})|{}| TrackerItemContext {} finished tracking on constructor: {}. Evaluating execution time...",
-                threadName, threadId, traceContextId, uuid, constructorSignatureString);
+            LOGGER.debug("{} ({})|{}| TrackerItemContext {} finished tracking on constructor: {} - {}. Evaluating execution time...",
+                threadName, threadId, traceContextId, uuid, constructorSignatureString, constructorArgumentString);
             ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(constructorSignature);
             trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
             trackerItemContext.setTimeUnit(trackingTimeUnit);
