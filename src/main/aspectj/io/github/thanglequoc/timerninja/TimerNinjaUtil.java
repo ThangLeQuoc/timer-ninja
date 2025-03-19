@@ -233,7 +233,7 @@ public class TimerNinjaUtil {
      * @param timerNinjaThreadContext The timerNinjaThreadContext to visualize the execution time trace
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
-        String traceContextId = timerNinjaThreadContext.getTraceContextId(); // TODO @thangle: Update it here
+        String traceContextId = timerNinjaThreadContext.getTraceContextId();
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
 
         logMessage("Timer Ninja trace context id: {}", traceContextId);
