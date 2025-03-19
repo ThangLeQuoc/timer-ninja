@@ -34,4 +34,11 @@ public @interface TimerNinjaTracker {
      * Default is false
      * */
     boolean includeArgs() default false;
+
+    /**
+     * Set the threshold of the tracker, if the execution time of the method is less than the threshold,
+     * the tracker will not be included in the tracking result.
+     * Default is -1, which means no threshold is set.
+     * */
+    int threshold() default -1;
 }

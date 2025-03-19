@@ -44,8 +44,10 @@ public aspect TimeTrackingAspect {
         String methodSignatureString = TimerNinjaUtil.prettyGetMethodSignature(methodSignature);
         String methodArgumentString = TimerNinjaUtil.prettyGetArguments(thisJoinPoint);
         boolean isIncludeArgsInLog = TimerNinjaUtil.isArgsIncluded(methodSignature);
+        int threshold = TimerNinjaUtil.getThreshold(methodSignature);
 
         TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), methodSignatureString, methodArgumentString, isIncludeArgsInLog);
+        trackerItemContext.setThreshold(threshold);
         String uuid = UUID.randomUUID().toString();
 
         Thread currentThread = Thread.currentThread();
@@ -68,7 +70,8 @@ public aspect TimeTrackingAspect {
             LOGGER.debug("{} ({})|{}| TrackerItemContext {} finished tracking on: {} - {}. Evaluating execution time...",
                 threadName, threadId, traceContextId, uuid, methodSignatureString, methodArgumentString);
             ChronoUnit trackingTimeUnit = TimerNinjaUtil.getTrackingTimeUnit(methodSignature);
-            trackerItemContext.setExecutionTime(TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit));
+            long executionTime = TimerNinjaUtil.convertFromMillis(endTime - startTime, trackingTimeUnit);
+            trackerItemContext.setExecutionTime(executionTime);
             trackerItemContext.setTimeUnit(trackingTimeUnit);
             LOGGER.debug("{} ({})|{}| TrackerItemContext: {}", threadName, threadId, traceContextId, trackerItemContext);
             trackingCtx.decreasePointerDepth();
@@ -102,8 +105,10 @@ public aspect TimeTrackingAspect {
         String constructorSignatureString = TimerNinjaUtil.prettyGetConstructorSignature(constructorSignature);
         String constructorArgumentString = TimerNinjaUtil.prettyGetArguments(thisJoinPoint);
         boolean isIncludeArgsInLog = TimerNinjaUtil.isArgsIncluded(constructorSignature);
+        int threshold = TimerNinjaUtil.getThreshold(constructorSignature);
 
         TrackerItemContext trackerItemContext = new TrackerItemContext(trackingCtx.getPointerDepth(), constructorSignatureString, constructorArgumentString, isIncludeArgsInLog);
+        trackerItemContext.setThreshold(threshold);
         String uuid = UUID.randomUUID().toString();
 
         Thread currentThread = Thread.currentThread();

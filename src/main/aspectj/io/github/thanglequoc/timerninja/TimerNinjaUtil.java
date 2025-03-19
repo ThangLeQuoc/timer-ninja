@@ -13,6 +13,8 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * General utility class of TimerNinja library
@@ -20,6 +22,10 @@ import java.time.temporal.ChronoUnit;
 public class TimerNinjaUtil {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TimerNinjaUtil.class);
+
+    private static final String BASE_MSG_FORMAT = "{}{} - {} {}"; // Base format
+    private static final String MSG_WITH_ARGS_FORMAT = "{}{} - Args: [{}] - {} {}"; // Format when args are included
+    private static final String THRESHOLD_SUFFIX_FORMAT = " ¤ [Threshold Exceed !!: {} ms]"; // Threshold format
 
     /**
      * The timer ninja util is a util class with static method, so instance creation is not allowed on this util class
@@ -53,6 +59,28 @@ public class TimerNinjaUtil {
         }
         TimerNinjaTracker annotation = (TimerNinjaTracker) constructorSignature.getConstructor().getAnnotation(TimerNinjaTracker.class);
         return annotation.enabled();
+    }
+
+    /**
+     * Get the threshold setting of the tracker
+     * */
+    public static int getThreshold(MethodSignature methodSignature) {
+        if (methodSignature == null) {
+            throw new IllegalArgumentException("MethodSignature must be present");
+        }
+        TimerNinjaTracker annotation = methodSignature.getMethod().getAnnotation(TimerNinjaTracker.class);
+        return annotation.threshold();
+    }
+
+    /**
+     * Get the threshold setting of the tracker
+     * */
+    public static int getThreshold(ConstructorSignature constructorSignature) {
+        if (constructorSignature == null) {
+            throw new IllegalArgumentException("ConstructorSignature must be present");
+        }
+        TimerNinjaTracker annotation = (TimerNinjaTracker) constructorSignature.getConstructor().getAnnotation(TimerNinjaTracker.class);
+        return annotation.threshold();
     }
 
     /**
@@ -205,7 +233,7 @@ public class TimerNinjaUtil {
      * @param timerNinjaThreadContext The timerNinjaThreadContext to visualize the execution time trace
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
-        String traceContextId = timerNinjaThreadContext.getTraceContextId();
+        String traceContextId = timerNinjaThreadContext.getTraceContextId(); // TODO @thangle: Update it here
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
 
         logMessage("Timer Ninja trace context id: {}", traceContextId);
@@ -218,19 +246,61 @@ public class TimerNinjaUtil {
 
         logMessage("{===== Start of trace context id: {} =====}", traceContextId);
 
-        timerNinjaThreadContext.getItemContextMap().values().forEach(item-> {
+        boolean shouldLog = true;
+        int currentMethodPointerDepthWithThresholdMeet = -1; // unassigned
+
+        for (TrackerItemContext item : timerNinjaThreadContext.getItemContextMap().values()) {
+            if (!shouldLog && item.getPointerDepth() == currentMethodPointerDepthWithThresholdMeet) {
+                shouldLog = true;
+            }
+
+            // Item has threshold & still within limit
+            if (item.isEnableThreshold() && item.getExecutionTime() < item.getThreshold()) {
+                shouldLog = false;
+                currentMethodPointerDepthWithThresholdMeet = item.getPointerDepth();
+            }
+            if (!shouldLog) {
+                continue;
+            }
+
+            /*
+            * Breakdown msg format
+                {}{}: Indent + Method name
+                - Args: [{}]: Args information (if included?)
+                - {} {}: Execution time + unit
+                ¤ [Threshold Exceed !!: {} ms]: If the threshold exceeded
+            *  */
+            List<Object> argList = new ArrayList<>();
+            StringBuilder msgFormat = new StringBuilder();
+
+            // Indent + Method name
+            msgFormat.append("{}{}");
             String indent = generateIndent(item.getPointerDepth());
             String methodName = item.getMethodName();
+            argList.add(indent);
+            argList.add(methodName);
+
+            // Argument information (if included?)
+            if (item.isIncludeArgs()) {
+                msgFormat.append(" - Args: [{}]");
+                String args = item.getArguments();
+                argList.add(args);
+            }
+
+            msgFormat.append(" - {} {}");
             long executionTime = item.getExecutionTime();
             String timeUnit = getPresentationUnit(item.getTimeUnit());
-            String args = item.getArguments();
+            argList.add(executionTime);
+            argList.add(timeUnit);
 
-            if (item.isIncludeArgs()) {
-                logMessage("{}{} - Args: [{}] - {} {}", indent, methodName, args, executionTime, timeUnit);
-            } else {
-                logMessage("{}{} - {} {}", indent, methodName, executionTime, timeUnit);
+            if (item.isEnableThreshold() && item.getExecutionTime() >= item.getThreshold()) {
+                msgFormat.append(" ¤ [Threshold Exceed !!: {} ms]");
+                argList.add(item.getThreshold());
             }
-        });
+
+            logMessage(msgFormat.toString(), argList.toArray());
+        }
+
         logMessage("{====== End of trace context id: {} ======}", traceContextId);
     }
 
@@ -260,6 +330,13 @@ public class TimerNinjaUtil {
         }
         sb.append("|-- ");
         return sb.toString();
+    }
+
+    /**
+     * Check if the threshold of this tracker item is exceeded
+     * */
+    public static boolean isThresholdExceeded(TrackerItemContext item) {
+        return item.getThreshold() > 0 && item.getExecutionTime() > item.getThreshold();
     }
 
     /**
