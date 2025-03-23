@@ -233,7 +233,6 @@ public class TimerNinjaUtil {
      * @param timerNinjaThreadContext The timerNinjaThreadContext to visualize the execution time trace
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
-        // TODO @thangle: Handle special case when the trace context has only one element that met threshold -> does not need to log
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
 
