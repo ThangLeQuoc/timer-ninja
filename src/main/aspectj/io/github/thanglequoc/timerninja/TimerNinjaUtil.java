@@ -25,7 +25,7 @@ public class TimerNinjaUtil {
 
     private static final String BASE_MSG_FORMAT = "{}{} - {} {}"; // Base format
     private static final String MSG_WITH_ARGS_FORMAT = "{}{} - Args: [{}] - {} {}"; // Format when args are included
-    private static final String THRESHOLD_SUFFIX_FORMAT = " ¤ [Threshold Exceed !!: {} ms]"; // Threshold format
+    private static final String THRESHOLD_SUFFIX_FORMAT = " ¤ [Threshold Exceeded !!: {} ms]"; // Threshold format
 
     /**
      * The timer ninja util is a util class with static method, so instance creation is not allowed on this util class
@@ -233,6 +233,7 @@ public class TimerNinjaUtil {
      * @param timerNinjaThreadContext The timerNinjaThreadContext to visualize the execution time trace
      * */
     public static void logTimerContextTrace(TimerNinjaThreadContext timerNinjaThreadContext) {
+        // TODO @thangle: Handle special case when the trace context has only one element that met threshold -> does not need to log
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
 
@@ -246,20 +247,21 @@ public class TimerNinjaUtil {
 
         logMessage("{===== Start of trace context id: {} =====}", traceContextId);
 
-        boolean shouldLog = true;
         int currentMethodPointerDepthWithThresholdMeet = -1; // unassigned
+        boolean withinThresholdZone = false;
 
         for (TrackerItemContext item : timerNinjaThreadContext.getItemContextMap().values()) {
-            if (!shouldLog && item.getPointerDepth() == currentMethodPointerDepthWithThresholdMeet) {
-                shouldLog = true;
+            if (withinThresholdZone && item.getPointerDepth() == currentMethodPointerDepthWithThresholdMeet) {
+                withinThresholdZone = false;
             }
 
             // Item has threshold & still within limit
-            if (item.isEnableThreshold() && item.getExecutionTime() < item.getThreshold()) {
-                shouldLog = false;
-                currentMethodPointerDepthWithThresholdMeet = item.getPointerDepth();
+            if (!withinThresholdZone && (item.isEnableThreshold() && item.getExecutionTime() < item.getThreshold())) {
+                currentMethodPointerDepthWithThresholdMeet = item.getPointerDepth(); // TODO @thangle: Problem
+                withinThresholdZone = true;
             }
-            if (!shouldLog) {
+
+            if (withinThresholdZone) {
                 continue;
             }
 

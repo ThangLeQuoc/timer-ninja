@@ -45,10 +45,11 @@ public class TimerNinjaIntegrationTest {
         assertTrue(formattedMessages.get(2).contains("There isn't any tracker enabled in the tracking context"));
     }
 
+    /* Integration testing */
     @Test
     public void testTrackingOnMethods() {
         BankService bankService = new BankService();
-        bankService.requestMoneyTransfer(2, 3, 3000);
+        bankService.requestMoneyTransfer(1, 2, 3000);
 
         List<String> formattedMessages = logCaptureExtension.getFormattedMessages();
         assertFalse(formattedMessages.isEmpty());
