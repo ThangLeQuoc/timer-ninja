@@ -33,7 +33,9 @@ public class BankService {
         }
     }
 
-    /* Test method to simulate transfer money */
+    /* Test method to simulate transfer money
+    * The threshold setting must always exceed
+    *  */
     @TimerNinjaTracker(threshold = 200)
     public void requestMoneyTransfer(int sourceUserId, int targetUserId, int amount) {
         User sourceUser = userService.findUser(sourceUserId);

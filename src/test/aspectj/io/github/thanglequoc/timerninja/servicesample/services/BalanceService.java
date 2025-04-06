@@ -39,6 +39,9 @@ public class BalanceService {
         notificationService.notify(user);
     }
 
+    /*
+    * Integration test note: The threshold setting must met
+    *  */
     @TimerNinjaTracker(includeArgs = true, threshold = 500)
     public void deductAmount(User user, int amount) {
         try {

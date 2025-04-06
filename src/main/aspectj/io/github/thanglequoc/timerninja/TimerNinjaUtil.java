@@ -23,15 +23,10 @@ public class TimerNinjaUtil {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TimerNinjaUtil.class);
 
-    private static final String BASE_MSG_FORMAT = "{}{} - {} {}"; // Base format
-    private static final String MSG_WITH_ARGS_FORMAT = "{}{} - Args: [{}] - {} {}"; // Format when args are included
-    private static final String THRESHOLD_SUFFIX_FORMAT = " ¤ [Threshold Exceeded !!: {} ms]"; // Threshold format
-
     /**
      * The timer ninja util is a util class with static method, so instance creation is not allowed on this util class
      * */
     private TimerNinjaUtil() {
-
     }
 
     /**
@@ -236,16 +231,12 @@ public class TimerNinjaUtil {
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
         String utcTimeString = toUTCTimestampString(timerNinjaThreadContext.getCreationTime());
 
-        logMessage("Timer Ninja trace context id: {}", traceContextId);
-        logMessage("Trace timestamp: {}", utcTimeString);
-
+        logMessage("Timer Ninja trace context id: {} | Trace timestamp: {}", traceContextId, utcTimeString);
         if (timerNinjaThreadContext.getItemContextMap().isEmpty()) {
             logMessage("There isn't any tracker enabled in the tracking context");
             return;
         }
-
         logMessage("{===== Start of trace context id: {} =====}", traceContextId);
-
         int currentMethodPointerDepthWithThresholdMeet = -1; // unassigned
         boolean withinThresholdZone = false;
 
@@ -256,10 +247,9 @@ public class TimerNinjaUtil {
 
             // Item has threshold & still within limit
             if (!withinThresholdZone && (item.isEnableThreshold() && item.getExecutionTime() < item.getThreshold())) {
-                currentMethodPointerDepthWithThresholdMeet = item.getPointerDepth(); // TODO @thangle: Problem
+                currentMethodPointerDepthWithThresholdMeet = item.getPointerDepth();
                 withinThresholdZone = true;
             }
-
             if (withinThresholdZone) {
                 continue;
             }
@@ -298,10 +288,8 @@ public class TimerNinjaUtil {
                 msgFormat.append(" ¤ [Threshold Exceed !!: {} ms]");
                 argList.add(item.getThreshold());
             }
-
             logMessage(msgFormat.toString(), argList.toArray());
         }
-
         logMessage("{====== End of trace context id: {} ======}", traceContextId);
     }
 
