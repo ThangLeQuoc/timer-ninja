@@ -114,7 +114,7 @@ public class TimerNinjaIntegrationTest {
         assertTrue(formattedMessages.get(1).startsWith("{===== Start of trace context id:"));
         assertTrue(formattedMessages.get(2).startsWith("{====== End of trace context id:"));
 
-        // The nofication service is called but there is no trace output printing out, this is the expected behavior
+        // The notification service is called but there is no trace output printing out, this is the expected behavior
         // because its parent method met the threshold setting
         verify(notificationService, times(1)).notify(user);
     }
