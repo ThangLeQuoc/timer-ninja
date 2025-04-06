@@ -1,6 +1,7 @@
-package io.github.thanglequoc.timerninja.servicesample;
+package io.github.thanglequoc.timerninja.servicesample.services;
 
 import io.github.thanglequoc.timerninja.TimerNinjaTracker;
+import io.github.thanglequoc.timerninja.servicesample.entities.User;
 
 public class NotificationService {
     public NotificationService() {

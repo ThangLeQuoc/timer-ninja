@@ -35,6 +35,11 @@ public class TrackerItemContext {
     private ChronoUnit timeUnit;
 
     /**
+     * The threshold configuration of this tracker item, default is -1 (no threshold)
+     * */
+    private int threshold = -1;
+
+    /**
      * Constructor of tracker item context
      * @param pointerDepth The pointer depth of this item
      * @param methodName The method name of this item
@@ -122,6 +127,27 @@ public class TrackerItemContext {
 
     public boolean isIncludeArgs() {
         return includeArgs;
+    }
+
+    /**
+     * Set the threshold of this tracker item
+     * */
+    public void setThreshold(int threshold) {
+        this.threshold = threshold;
+    }
+
+    /**
+     * Get the threshold of this tracker item
+     * */
+    public int getThreshold() {
+        return threshold;
+    }
+
+    /**
+     * Get if the threshold setting is enabled for this item
+     * */
+    public boolean isEnableThreshold() {
+        return threshold != -1;
     }
 
     @Override

@@ -147,23 +147,23 @@ public class TimerNinjaUtilTest {
 
         List<String> loggingMessages = logCaptureExtension.getFormattedMessages();
         assertFalse(loggingMessages.isEmpty());
-        assertEquals(7, loggingMessages.size());
-        String contextMessage = loggingMessages.get(0);
+        assertEquals(6, loggingMessages.size());
+        String headingTraceInformation = loggingMessages.get(0);
 
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
 
-        assertEquals(String.format("Timer Ninja trace context id: %s", traceContextId), contextMessage);
-        assertTrue(loggingMessages.get(1).contains("Trace timestamp"));
+        assertTrue(headingTraceInformation.contains(String.format("Timer Ninja trace context id: %s", traceContextId)));
+        assertTrue(headingTraceInformation.contains("Trace timestamp"));
         assertEquals(
             String.format("{===== Start of trace context id: %s =====}", traceContextId),
-            loggingMessages.get(2)
+            loggingMessages.get(1)
         );
-        assertEquals("public void processPayment(User user, int amount) - 500 ms", loggingMessages.get(3));
-        assertEquals("  |-- public boolean deductAmount(User user, int amount) - 100 ms", loggingMessages.get(4));
-        assertEquals("  |-- public void notify(User user) - 150 ms", loggingMessages.get(5));
+        assertEquals("public void processPayment(User user, int amount) - 500 ms", loggingMessages.get(2));
+        assertEquals("  |-- public boolean deductAmount(User user, int amount) - 100 ms", loggingMessages.get(3));
+        assertEquals("  |-- public void notify(User user) - 150 ms", loggingMessages.get(4));
         assertEquals(
             String.format("{====== End of trace context id: %s ======}", traceContextId),
-            loggingMessages.get(6)
+            loggingMessages.get(5)
         );
     }
 
@@ -175,23 +175,25 @@ public class TimerNinjaUtilTest {
 
         List<String> loggingMessages = logCaptureExtension.getFormattedMessages();
         assertFalse(loggingMessages.isEmpty());
-        assertEquals(7, loggingMessages.size());
+        assertEquals(6, loggingMessages.size());
         String contextMessage = loggingMessages.get(0);
 
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
 
-        assertEquals(String.format("Timer Ninja trace context id: %s", traceContextId), contextMessage);
-        assertTrue(loggingMessages.get(1).contains("Trace timestamp"));
+        String traceContextInformation = loggingMessages.get(0);
+
+        assertTrue(traceContextInformation.contains(String.format("Timer Ninja trace context id: %s", traceContextId)));
+        assertTrue(traceContextInformation.contains("Trace timestamp"));
         assertEquals(
             String.format("{===== Start of trace context id: %s =====}", traceContextId),
-            loggingMessages.get(2)
+            loggingMessages.get(1)
         );
-        assertEquals("public void processPayment(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 500 ms", loggingMessages.get(3));
-        assertEquals("  |-- public boolean deductAmount(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 100 ms", loggingMessages.get(4));
-        assertEquals("  |-- public void notify(User user) - 150 µs", loggingMessages.get(5));
+        assertEquals("public void processPayment(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 500 ms", loggingMessages.get(2));
+        assertEquals("  |-- public boolean deductAmount(User user, int amount) - Args: [user={name='John Doe', email=johndoe@gmail.com}, amount={500}] - 100 ms", loggingMessages.get(3));
+        assertEquals("  |-- public void notify(User user) - 150 µs", loggingMessages.get(4));
         assertEquals(
             String.format("{====== End of trace context id: %s ======}", traceContextId),
-            loggingMessages.get(6)
+            loggingMessages.get(5)
         );
     }
 
@@ -204,10 +206,11 @@ public class TimerNinjaUtilTest {
         assertFalse(loggingMessages.isEmpty());
 
         String traceContextId = timerNinjaThreadContext.getTraceContextId();
+        String traceContextHeader = loggingMessages.get(0);
 
-        assertEquals(String.format("Timer Ninja trace context id: %s", traceContextId), loggingMessages.get(0));
-        assertTrue(loggingMessages.get(1).contains("Trace timestamp"));
-        assertTrue(loggingMessages.get(2).contains("There isn't any tracker enabled in the tracking context"));
+        assertTrue(traceContextHeader.contains(String.format("Timer Ninja trace context id: %s", traceContextId)));
+        assertTrue(traceContextHeader.contains("Trace timestamp"));
+        assertTrue(loggingMessages.get(1).contains("There isn't any tracker enabled in the tracking context"));
     }
 
     @Test

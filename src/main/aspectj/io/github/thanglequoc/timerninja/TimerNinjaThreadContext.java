@@ -34,6 +34,8 @@ public class TimerNinjaThreadContext {
 
     /**
      * Item context map to store the executing method being tracked. This contextMap will act as a stacktrace to be printed out later
+     * Key: The uuid generated for each tracker item context
+     * Value: the tracker item context of the method being tracked
      * */
     private Map<String, TrackerItemContext> itemContextMap;
 

@@ -1,13 +1,19 @@
-package io.github.thanglequoc.timerninja.servicesample;
+package io.github.thanglequoc.timerninja.servicesample.services;
 
 import java.time.temporal.ChronoUnit;
 
 import io.github.thanglequoc.timerninja.TimerNinjaTracker;
+import io.github.thanglequoc.timerninja.servicesample.entities.BankRecordBook;
+import io.github.thanglequoc.timerninja.servicesample.entities.User;
 
 public class UserService {
-    public UserService() {
+
+    private final BankRecordBook recordBook;
+
+    public UserService(BankRecordBook recordBook) {
         try {
             Thread.sleep(100);
+            this.recordBook = recordBook;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -20,7 +26,6 @@ public class UserService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        User user = new User(userId, "user-"+userId);
-        return user;
+        return recordBook.getUserBalance().keySet().stream().filter(u -> u.getId() == userId).findFirst().orElse(null);
     }
 }
