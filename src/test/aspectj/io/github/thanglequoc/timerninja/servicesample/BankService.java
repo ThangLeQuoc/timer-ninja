@@ -47,7 +47,7 @@ public class BankService {
     /* Test method to simulate deposit money */
     @TimerNinjaTracker(includeArgs = true, threshold = 500)
     public void depositMoney(int userId, int amount) {
-        depositMoney(userId, amount);
+        // TODO @thangle: Not yet implemented
     }
 
     @TimerNinjaTracker(includeArgs = true)
